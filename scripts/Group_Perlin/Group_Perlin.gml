@@ -1,3 +1,5 @@
+#macro MACAW_VERSION "0.0.1"
+
 function perlin_white_noise(w, h) {
     var array = array_create(w);
     for (var i = 0; i < w; i++) {
@@ -17,7 +19,7 @@ function perlin_generate(base_noise, octave_count) {
         var smooth_noise = array_create(w);
         var period = 1 << octave;
         var frequency = 1 / period;
-    
+        
         for (var i = 0; i < w; i++) {
             var i0 = (i div period) * period;
             var i1 = (i0 + period) % w;
@@ -26,18 +28,18 @@ function perlin_generate(base_noise, octave_count) {
             smooth_noise[@ i] = a;
             var b0 = base_noise[i0];
             var b1 = base_noise[i1];
-        
+            
             for (var j = 0; j < h; j++) {
                 var j0 = (j div period) * period;
                 var j1 = (j0 + period) % h;
                 var vblend = (j - j0) * frequency;
-            
+                
                 var top = lerp(b0[j0], b1[j0], hblend);
                 var bottom = lerp(b0[j1], b1[j1], hblend);
                 a[@ j] = lerp(top, bottom, vblend);
             }
         }
-    
+        
         return smooth_noise;
     }
 
@@ -99,3 +101,9 @@ function perlin_to_sprite(noise) {
     buffer_delete(buffer);
     return spr;
 }
+
+function perlin_version() {
+    show_debug_message("Macaw GML version: " + MACAW_VERSION);
+}
+
+perlin_version();
