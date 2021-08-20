@@ -1,18 +1,18 @@
 #macro MACAW_VERSION "0.0.1"
 
-function macaw_white_noise(w, h) {
-    var array = array_create(w);
-    for (var i = 0; i < w; i++) {
-        var a = array_create(h);
-        array[@ i] = a;
-        for (var j = 0; j < h; j++) {
-            a[@ j] = random(1);
+function macaw_generate(w, h, octave_count) {
+    static macaw_white_noise = function(w, h) {
+        var array = array_create(w);
+        for (var i = 0; i < w; i++) {
+            var a = array_create(h);
+            array[@ i] = a;
+            for (var j = 0; j < h; j++) {
+                a[@ j] = random(1);
+            }
         }
-    }
-    return array;
-}
-
-function macaw_generate(base_noise, octave_count) {
+        return array;
+    };
+    
     static macaw_smooth_noise = function(base_noise, octave) {
         var w = array_length(base_noise);
         var h = array_length(base_noise[0]);
@@ -41,10 +41,9 @@ function macaw_generate(base_noise, octave_count) {
         }
         
         return smooth_noise;
-    }
-
-    var w = array_length(base_noise);
-    var h = array_length(base_noise[0]);
+    };
+    
+    var base_noise = macaw_white_noise(w, h);
     var persistence = 0.5;
     var amplitude = 1;
     var total_amplitude = 0;
