@@ -10,37 +10,37 @@ function perlin_white_noise(w, h) {
     return array;
 }
 
-function perlin_smooth_noise(base_noise, octave) {
-    var w = array_length(base_noise);
-    var h = array_length(base_noise[0]);
-    var smooth_noise = array_create(w);
-    var period = 1 << octave;
-    var frequency = 1 / period;
-    
-    for (var i = 0; i < w; i++) {
-        var i0 = (i div period) * period;
-        var i1 = (i0 + period) % w;
-        var hblend = (i - i0) * frequency;
-        var a = array_create(h);
-        smooth_noise[@ i] = a;
-        var b0 = base_noise[i0];
-        var b1 = base_noise[i1];
-        
-        for (var j = 0; j < h; j++) {
-            var j0 = (j div period) * period;
-            var j1 = (j0 + period) % h;
-            var vblend = (j - j0) * frequency;
-            
-            var top = lerp(b0[j0], b1[j0], hblend);
-            var bottom = lerp(b0[j1], b1[j1], hblend);
-            a[@ j] = lerp(top, bottom, vblend);
-        }
-    }
-    
-    return smooth_noise;
-}
-
 function perlin_generate(base_noise, octave_count) {
+    static perlin_smooth_noise = function(base_noise, octave) {
+        var w = array_length(base_noise);
+        var h = array_length(base_noise[0]);
+        var smooth_noise = array_create(w);
+        var period = 1 << octave;
+        var frequency = 1 / period;
+    
+        for (var i = 0; i < w; i++) {
+            var i0 = (i div period) * period;
+            var i1 = (i0 + period) % w;
+            var hblend = (i - i0) * frequency;
+            var a = array_create(h);
+            smooth_noise[@ i] = a;
+            var b0 = base_noise[i0];
+            var b1 = base_noise[i1];
+        
+            for (var j = 0; j < h; j++) {
+                var j0 = (j div period) * period;
+                var j1 = (j0 + period) % h;
+                var vblend = (j - j0) * frequency;
+            
+                var top = lerp(b0[j0], b1[j0], hblend);
+                var bottom = lerp(b0[j1], b1[j1], hblend);
+                a[@ j] = lerp(top, bottom, vblend);
+            }
+        }
+    
+        return smooth_noise;
+    }
+
     var w = array_length(base_noise);
     var h = array_length(base_noise[0]);
     var persistence = 0.5;
