@@ -46,8 +46,8 @@
     "PhysicsWorldPixToMetres": 0.1,
   },
   "parent": {
-    "name": "perlin noise tests",
-    "path": "perlin noise tests.yyp",
+    "name": "Tests",
+    "path": "folders/Tests.yy",
   },
   "resourceVersion": "1.0",
   "name": "Room1",
