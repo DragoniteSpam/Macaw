@@ -1,6 +1,6 @@
 {
   "resources": [
-    {"id":{"name":"Group_Perlin","path":"scripts/Group_Perlin/Group_Perlin.yy",},"order":15,},
+    {"id":{"name":"Macaw","path":"scripts/Macaw/Macaw.yy",},"order":15,},
     {"id":{"name":"Object1","path":"objects/Object1/Object1.yy",},"order":0,},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},"order":1,},
   ],
