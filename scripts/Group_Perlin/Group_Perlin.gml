@@ -1,6 +1,6 @@
 #macro MACAW_VERSION "0.0.1"
 
-function perlin_white_noise(w, h) {
+function macaw_white_noise(w, h) {
     var array = array_create(w);
     for (var i = 0; i < w; i++) {
         var a = array_create(h);
@@ -12,8 +12,8 @@ function perlin_white_noise(w, h) {
     return array;
 }
 
-function perlin_generate(base_noise, octave_count) {
-    static perlin_smooth_noise = function(base_noise, octave) {
+function macaw_generate(base_noise, octave_count) {
+    static macaw_smooth_noise = function(base_noise, octave) {
         var w = array_length(base_noise);
         var h = array_length(base_noise[0]);
         var smooth_noise = array_create(w);
@@ -51,7 +51,7 @@ function perlin_generate(base_noise, octave_count) {
     
     var smooth_noise = array_create(octave_count);
     for (var i = 0; i < octave_count; i++) {
-        smooth_noise[@ i] = perlin_smooth_noise(base_noise, i);
+        smooth_noise[@ i] = macaw_smooth_noise(base_noise, i);
     }
     
     var perlin = array_create(w, 0);
@@ -83,14 +83,15 @@ function perlin_generate(base_noise, octave_count) {
     return perlin;
 }
 
-function perlin_to_sprite(noise) {
+function macaw_to_sprite(noise) {
     var w = array_length(noise);
     var h = array_length(noise[0]);
     var buffer = buffer_create(w * h * 4, buffer_fixed, 4);
     for (var j = 0; j < h; j++) {
         for (var i = 0; i < w; i++) {
             var idx = (i * h + j) * 4;
-            var c = 0xff000000 | floor(noise[i][j] * 255);
+            var intensity = floor(noise[i][j] * 255);
+            var c = 0xff000000 | make_colour_rgb(intensity, intensity, intensity);
             buffer_poke(buffer, idx, buffer_u32, c);
         }
     }
@@ -102,8 +103,8 @@ function perlin_to_sprite(noise) {
     return spr;
 }
 
-function perlin_version() {
+function macaw_version() {
     show_debug_message("Macaw GML version: " + MACAW_VERSION);
 }
 
-perlin_version();
+macaw_version();
