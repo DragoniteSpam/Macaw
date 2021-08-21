@@ -103,6 +103,10 @@ function macaw_to_sprite(macaw) {
     return spr;
 }
 
+function macaw_destroy(macaw) {
+    buffer_delete(macaw.noise);
+}
+
 function macaw_version() {
     show_debug_message("Macaw GML version: " + MACAW_VERSION);
     show_debug_message("Macaw GML version: " + __macaw_version());
