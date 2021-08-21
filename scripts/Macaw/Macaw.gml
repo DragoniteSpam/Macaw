@@ -4,7 +4,12 @@ global.__macaw_seed = 0;
 
 function macaw_generate_dll(w, h, octaves) {
     var perlin = buffer_create(w * h * 4, buffer_fixed, 4);
-    __macaw_generate(buffer_get_address(perlin), w, h, octaves);
+    
+    if (os_type == os_windows && os_browser == browser_not_a_browser) {
+        __macaw_generate(buffer_get_address(perlin), w, h, octaves);
+    } else {
+        show_message("DLL version not supported on this target platform - please use the GML version instead");
+    }
     
     return {
         noise: perlin,
@@ -124,8 +129,12 @@ function macaw_destroy(macaw) {
 }
 
 function macaw_version() {
-    show_debug_message("Macaw GML version: " + MACAW_VERSION);
-    show_debug_message("Macaw GML version: " + __macaw_version());
+    show_message("Macaw GML version: " + MACAW_VERSION);
+    if (os_type == os_windows && os_browser == browser_not_a_browser) {
+        show_message("Macaw DLL version: " + __macaw_version());
+    } else {
+        show_message("Macaw DLL version: N/A");
+    }
 }
 
 function macaw_set_seed(seed) {
