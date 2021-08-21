@@ -1,13 +1,18 @@
 #macro MACAW_VERSION "0.0.1"
 
+global.__macaw_seed = 0;
+
 function macaw_generate_gml(w, h, octave_count) {
     static macaw_white_noise = function(w, h) {
+        var current_seed = random_get_seed();
+        random_set_seed(global.__macaw_seed);
         var array = array_create(w * h);
         for (var i = 0; i < w; i++) {
             for (var j = 0; j < h; j++) {
                 array[@ i * h + j] = random(1);
             }
         }
+        random_set_seed(current_seed);
         return array;
     };
     
@@ -110,6 +115,11 @@ function macaw_destroy(macaw) {
 function macaw_version() {
     show_debug_message("Macaw GML version: " + MACAW_VERSION);
     show_debug_message("Macaw GML version: " + __macaw_version());
+}
+
+function macaw_set_seed(seed) {
+    global.__macaw_seed = seed;
+    __macaw_set_seed(seed);
 }
 
 macaw_version();

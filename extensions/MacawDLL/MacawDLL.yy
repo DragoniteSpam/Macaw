@@ -25,11 +25,11 @@
           ],"resourceVersion":"1.0","name":"macaw_generate","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"macaw_set_seed","kind":1,"help":"macaw_set_seed(seed)","hidden":false,"returnType":2,"argCount":0,"args":[
             2,
-          ],"resourceVersion":"1.0","name":"macaw_set_seed","tags":[],"resourceType":"GMExtensionFunction",},
+          ],"resourceVersion":"1.0","name":"__macaw_set_seed","tags":[],"resourceType":"GMExtensionFunction",},
         {"externalName":"macaw_version","kind":1,"help":"macaw_version()","hidden":false,"returnType":1,"argCount":0,"args":[],"resourceVersion":"1.0","name":"__macaw_version","tags":[],"resourceType":"GMExtensionFunction",},
       ],"constants":[],"ProxyFiles":[],"copyToTargets":-1,"order":[
         {"name":"macaw_generate","path":"extensions/MacawDLL/MacawDLL.yy",},
-        {"name":"macaw_set_seed","path":"extensions/MacawDLL/MacawDLL.yy",},
+        {"name":"__macaw_set_seed","path":"extensions/MacawDLL/MacawDLL.yy",},
         {"name":"__macaw_version","path":"extensions/MacawDLL/MacawDLL.yy",},
       ],"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMExtensionFile",},
   ],
