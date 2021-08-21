@@ -79,20 +79,25 @@ function macaw_generate_gml(w, h, octave_count) {
         buffer_poke(perlin, i, buffer_f32, buffer_peek(perlin, i, buffer_f32) / total_amplitude);
     }
     
-    return perlin;
+    return {
+        noise: perlin,
+        width: w,
+        height: h,
+    }
 }
 
-function macaw_to_sprite(noise, w, h) {
-    var buffer = buffer_create(w * h * 4, buffer_fixed, 4);
+function macaw_to_sprite(macaw) {
+    var buffer = buffer_create(macaw.width * macaw.height * 4, buffer_fixed, 4);
+    var noise = macaw.noise;
     buffer_seek(noise, buffer_seek_start, 0);
-    repeat (w * h) {
+    repeat (macaw.width * macaw.height) {
         var intensity = floor(buffer_read(noise, buffer_f32) * 255);
         var c = 0xff000000 | make_colour_rgb(intensity, intensity, intensity);
         buffer_write(buffer, buffer_u32, c);
     }
-    var surface = surface_create(w, h);
+    var surface = surface_create(macaw.width, macaw.height);
     buffer_set_surface(buffer, surface, 0);
-    var spr = sprite_create_from_surface(surface, 0, 0, w, h, false, false, 0, 0);
+    var spr = sprite_create_from_surface(surface, 0, 0, macaw.width, macaw.height, false, false, 0, 0);
     surface_free(surface);
     buffer_delete(buffer);
     return spr;
