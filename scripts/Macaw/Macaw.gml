@@ -98,10 +98,9 @@ function macaw_to_sprite(noise, w, h) {
     return spr;
 }
 
-function macaw_version_gml() {
+function macaw_version() {
     show_debug_message("Macaw GML version: " + MACAW_VERSION);
+    show_debug_message("Macaw GML version: " + __macaw_version());
 }
 
-macaw_version_gml();
-
-show_debug_message(macaw_version());
+macaw_version();
