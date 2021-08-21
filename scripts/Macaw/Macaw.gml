@@ -2,7 +2,18 @@
 
 global.__macaw_seed = 0;
 
-function macaw_generate_gml(w, h, octave_count) {
+function macaw_generate_dll(w, h, octaves) {
+    var perlin = buffer_create(w * h * 4, buffer_fixed, 4);
+    __macaw_generate(buffer_get_address(perlin), w, h, octaves);
+    
+    return {
+        noise: perlin,
+        width: w,
+        height: h,
+    };
+}
+
+function macaw_generate(w, h, octave_count) {
     static macaw_white_noise = function(w, h) {
         var current_seed = random_get_seed();
         random_set_seed(global.__macaw_seed);
