@@ -129,11 +129,11 @@ function macaw_destroy(macaw) {
 }
 
 function macaw_version() {
-    show_message("Macaw GML version: " + MACAW_VERSION);
+    show_debug_message("Macaw GML version: " + MACAW_VERSION);
     if (os_type == os_windows && os_browser == browser_not_a_browser) {
-        show_message("Macaw DLL version: " + __macaw_version());
+        show_debug_message("Macaw DLL version: " + __macaw_version());
     } else {
-        show_message("Macaw DLL version: N/A");
+        show_debug_message("Macaw DLL version: N/A");
     }
 }
 
