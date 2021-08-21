@@ -1,5 +1,6 @@
 {
   "resources": [
+    {"id":{"name":"MacawDLL","path":"extensions/MacawDLL/MacawDLL.yy",},"order":18,},
     {"id":{"name":"Macaw","path":"scripts/Macaw/Macaw.yy",},"order":15,},
     {"id":{"name":"Object1","path":"objects/Object1/Object1.yy",},"order":0,},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},"order":1,},
