@@ -13,8 +13,12 @@ function macaw_generate_gml(w, h, octave_count) {
     
     static macaw_smooth_noise = function(base_noise, w, h, octave_count) {
         var base = w * h;
-        var len = base * octave_count;
-        var smooth_noise = array_create(len);
+        
+        static smooth_noise = buffer_create(10, buffer_fixed, 4);
+        if (buffer_get_size(smooth_noise) != w * h * octave_count * 4) {
+            buffer_resize(smooth_noise, w * h * octave_count * 4);
+        }
+        
         for (var octave = 0; octave < octave_count; octave++) {
             var period = 1 << octave;
             var frequency = 1 / period;
@@ -40,7 +44,7 @@ function macaw_generate_gml(w, h, octave_count) {
                     
                     var top = lerp(b00, b10, hblend);
                     var bottom = lerp(b01, b11, hblend);
-                    smooth_noise[@ base_b + j] = lerp(top, bottom, vblend);
+                    buffer_poke(smooth_noise, (base_b + j) * 4, buffer_f32, lerp(top, bottom, vblend));
                 }
             }
         }
@@ -66,7 +70,7 @@ function macaw_generate_gml(w, h, octave_count) {
         for (var i = 0; i < w; i++) {
             var base_b = i * h;
             for (var j = 0; j < h; j++) {
-                buffer_poke(perlin, (base_b + j) * 4, buffer_f32, buffer_peek(perlin, (base_b + j) * 4, buffer_f32) + smooth_noise[base_a + base_b + j] * amplitude);
+                buffer_poke(perlin, (base_b + j) * 4, buffer_f32, buffer_peek(perlin, (base_b + j) * 4, buffer_f32) + buffer_peek(smooth_noise, (base_a + base_b + j) * 4, buffer_f32) * amplitude);
             }
         }
     }
