@@ -23,10 +23,13 @@ function macaw_generate(w, h, octave_count) {
         var current_seed = random_get_seed();
         random_set_seed(global.__macaw_seed);
         var array = array_create(w * h);
-        for (var i = 0; i < w; i++) {
-            for (var j = 0; j < h; j++) {
-                array[@ i * h + j] = random(1);
+        var i = 0;
+        repeat (i) {
+            var j = 0;
+            repeat (h) {
+                array[@ i * h + j++] = random(1);
             }
+            i++;
         }
         random_set_seed(current_seed);
         return array;
@@ -46,14 +49,16 @@ function macaw_generate(w, h, octave_count) {
             
             var base_a = base * octave;
             
-            for (var i = 0; i < w; i++) {
+            var i = 0;
+            repeat (w) {
                 var i0 = (i div period) * period;
                 var i1 = (i0 + period) % w;
                 var hblend = (i - i0) * frequency;
                 
                 var base_b = base_a + i * h;
                 
-                for (var j = 0; j < h; j++) {
+                var j = 0;
+                repeat (h) {
                     var j0 = (j div period) * period;
                     var j1 = (j0 + period) % h;
                     var vblend = (j - j0) * frequency;
@@ -65,8 +70,9 @@ function macaw_generate(w, h, octave_count) {
                     
                     var top = lerp(b00, b10, hblend);
                     var bottom = lerp(b01, b11, hblend);
-                    buffer_poke(smooth_noise, (base_b + j) * 4, buffer_f32, lerp(top, bottom, vblend));
+                    buffer_poke(smooth_noise, (base_b + j++) * 4, buffer_f32, lerp(top, bottom, vblend));
                 }
+                i++;
             }
         }
         
@@ -88,16 +94,21 @@ function macaw_generate(w, h, octave_count) {
         total_amplitude += amplitude;
         var base_a = w * h * o;
         
-        for (var i = 0; i < w; i++) {
-            var base_b = i * h;
-            for (var j = 0; j < h; j++) {
+        var i = 0;
+        repeat (w) {
+            var base_b = i++ * h;
+            var j = 0;
+            repeat (h) {
                 buffer_poke(perlin, (base_b + j) * 4, buffer_f32, buffer_peek(perlin, (base_b + j) * 4, buffer_f32) + buffer_peek(smooth_noise, (base_a + base_b + j) * 4, buffer_f32) * amplitude);
+                j++;
             }
         }
     }
     
-    for (var i = 0; i < len; i += 4) {
-        buffer_poke(perlin, i, buffer_f32, buffer_peek(perlin, i, buffer_f32) / total_amplitude);
+    var index = 0;
+    repeat (len / 4) {
+        buffer_poke(perlin, index, buffer_f32, buffer_peek(perlin, index, buffer_f32) / total_amplitude);
+        index += 4;
     }
     
     return {
