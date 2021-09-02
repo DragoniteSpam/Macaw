@@ -26,7 +26,7 @@ function macaw_generate(w, h, octave_count, height) {
         random_set_seed(global.__macaw_seed);
         var array = array_create(w * h);
         var i = 0;
-        repeat (i) {
+        repeat (w) {
             var j = 0;
             repeat (h) {
                 array[@ i * h + j++] = random(1);
