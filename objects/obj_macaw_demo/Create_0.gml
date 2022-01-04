@@ -134,4 +134,32 @@ Generate = function() {
 };
 
 Render = function(w, h) {
+    if (!sprite_exists(self.sprite)) {
+        scribble("Upon generating some Perlin noise, the results will show up here.")
+            .draw(32, 32);
+    } else {
+        switch (self.demo_type) {
+            case 0:
+                draw_sprite(self.sprite, 0, 0, 0);
+                break;
+            case 1:
+                var cam = camera_get_active();
+                var dist = max(64, point_distance(0, 0, self.vbuff_width, self.vbuff_height) / 1.4);
+                camera_set_view_mat(cam, matrix_build_lookat(dist, dist, dist, 0, 0, 40, 0, 0, 1));
+                camera_set_proj_mat(cam, matrix_build_projection_perspective_fov(-60, -w / h, 1, 32000));
+                camera_apply(cam);
+                gpu_set_zwriteenable(true);
+                gpu_set_ztestenable(true);
+                shader_set(shd_terrain);
+                var offset = matrix_build(-self.vbuff_width / 2, -self.vbuff_height / 2, 0, 0, 0, 0, 1, 1, 1);
+                var rotation = matrix_build(0, 0, 0, 0, 0, current_time / 200, 1, 1, 1);
+                matrix_set(matrix_world, matrix_multiply(offset, rotation));
+                vertex_submit(self.vbuff, pr_trianglelist, -1);
+                matrix_set(matrix_world, matrix_build_identity());
+                shader_reset();
+                gpu_set_zwriteenable(false);
+                gpu_set_ztestenable(false);
+                break;
+        }
+    }
 };
