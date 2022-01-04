@@ -50,7 +50,7 @@ ui.AddContent([
     }),
     (new EmuText(32, EMU_AUTO, 256, 32, "Octaves: " + string(self.octaves)))
         .SetID("OCTAVES_LABEL"),
-    (new EmuProgressBar(32, EMU_AUTO, 256, 32, 8, 1, 16, true, self.octaves, function() {
+    (new EmuProgressBar(32, EMU_AUTO, 256, 32, 8, 1, 12, true, self.octaves, function() {
         obj_macaw_demo.octaves = self.value;
         self.GetSibling("OCTAVES_LABEL").text = "Octaves: " + string(self.value);
     }))
