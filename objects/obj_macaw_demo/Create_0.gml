@@ -7,6 +7,10 @@ amplitude = 255;
 seed = irandom(0xffffff);
 
 sprite = -1;
+vbuff = -1;
+
+vbuff_width = width;
+vbuff_height = height;
 
 ui = new EmuCore(0, 0, window_get_width(), window_get_height());
 
@@ -84,12 +88,15 @@ ui.AddContent([
     new EmuButton(32, EMU_AUTO, 256, 32, "Generate", function() {
         var output = obj_macaw_demo.Generate();
         self.GetSibling("OUTPUT_GEN").text = "Generation time: " + string(output.noise) + " ms";
-        self.GetSibling("OUTPUT_SPRITE").text = "Sprite creation time: " + string(output.sprite) + " ms";
+        self.GetSibling("OUTPUT_SPRITE").text = "Sprite time: " + string(output.sprite) + " ms";
+        self.GetSibling("OUTPUT_TERRAIN").text = "Terrain time: " + string(output.terrain) + " ms";
     }),
     (new EmuText(32, EMU_AUTO, 256, 32, ""))
         .SetID("OUTPUT_GEN"),
-    (new EmuText(32, EMU_AUTO, 256, 32, ""))
+    (new EmuText(1024, EMU_AUTO, 256, 32, ""))
         .SetID("OUTPUT_SPRITE"),
+    (new EmuText(1024, EMU_AUTO, 256, 32, ""))
+        .SetID("OUTPUT_TERRAIN"),
 ]);
 
 Generate = function() {
