@@ -1,6 +1,6 @@
 width = 128;
 height = 128;
-octaves = 4;
+octaves = 8;
 code_type = 0;
 
 sprite = -1;
