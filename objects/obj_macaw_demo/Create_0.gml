@@ -12,15 +12,44 @@ ui.AddContent([
     (new EmuInput(32, EMU_AUTO, 256, 32, "Width:", string(self.width), "4...8192", 4, E_InputTypes.INT, function() {
         obj_macaw_demo.width = real(self.value);
     }))
+        .SetID("WIDTH")
         .SetRealNumberBounds(4, 8192),
     (new EmuInput(32, EMU_AUTO, 256, 32, "Height:", string(self.height), "4...8192", 4, E_InputTypes.INT, function() {
         obj_macaw_demo.height = real(self.value);
     }))
+        .SetID("HEIGHT")
         .SetRealNumberBounds(4, 8192),
-    (new EmuInput(32, EMU_AUTO, 256, 32, "Octaves:", string(self.octaves), "1...20", 4, E_InputTypes.INT, function() {
-        obj_macaw_demo.octaves = real(self.value);
+    new EmuButton(32 + 64 * 0, EMU_AUTO, 64, 32, "64", function() {
+        obj_macaw_demo.width = 64;
+        obj_macaw_demo.height = 64;
+        self.GetSibling("WIDTH").SetValue("64");
+        self.GetSibling("HEIGHT").SetValue("64");
+    }),
+    new EmuButton(32 + 64 * 1, EMU_INLINE, 64, 32, "128", function() {
+        obj_macaw_demo.width = 128;
+        obj_macaw_demo.height = 128;
+        self.GetSibling("WIDTH").SetValue("128");
+        self.GetSibling("HEIGHT").SetValue("128");
+    }),
+    new EmuButton(32 + 64 * 2, EMU_INLINE, 64, 32, "256", function() {
+        obj_macaw_demo.width = 256;
+        obj_macaw_demo.height = 256;
+        self.GetSibling("WIDTH").SetValue("256");
+        self.GetSibling("HEIGHT").SetValue("256");
+    }),
+    new EmuButton(32 + 64 * 3, EMU_INLINE, 64, 32, "640", function() {
+        obj_macaw_demo.width = 640;
+        obj_macaw_demo.height = 640;
+        self.GetSibling("WIDTH").SetValue("640");
+        self.GetSibling("HEIGHT").SetValue("640");
+    }),
+    (new EmuText(32, EMU_AUTO, 256, 32, "Octaves: " + string(self.octaves)))
+        .SetID("OCTAVES_LABEL"),
+    (new EmuProgressBar(32, EMU_AUTO, 256, 32, 8, 1, 16, true, self.octaves, function() {
+        obj_macaw_demo.octaves = self.value;
+        self.GetSibling("OCTAVES_LABEL").text = "Octaves: " + string(self.value);
     }))
-        .SetRealNumberBounds(1, 20),
+        .SetIntegersOnly(true),
     (new EmuRadioArray(32, EMU_AUTO, 256, 32, "Code type:", self.code_type, function() {
         obj_macaw_demo.code_type = self.value;
     }))
