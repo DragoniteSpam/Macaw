@@ -72,7 +72,6 @@ ui.AddContent([
         }
         macaw_set_seed(obj_macaw_demo.seed);
     }))
-        .SetID("HEIGHT")
         .SetRealNumberBounds(4, 8192),
     (new EmuRadioArray(32, EMU_AUTO, 256, 32, "Code type:", self.code_type, function() {
         obj_macaw_demo.code_type = self.value;
