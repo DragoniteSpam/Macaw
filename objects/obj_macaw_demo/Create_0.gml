@@ -2,6 +2,7 @@ width = 128;
 height = 128;
 octaves = 8;
 code_type = 0;
+demo_type = 0;
 amplitude = 255;
 seed = irandom(0xffffffff);
 
@@ -77,6 +78,10 @@ ui.AddContent([
         obj_macaw_demo.code_type = self.value;
     }))
         .AddOptions(["Native GML (cross-platform)", "DLL (Windows only)"]),
+    (new EmuRadioArray(32, EMU_AUTO, 256, 32, "Demo type:", self.demo_type, function() {
+        obj_macaw_demo.demo_type = self.value;
+    }))
+        .AddOptions(["Noise sprite", "Terrain"]),
     new EmuButton(32, EMU_AUTO, 256, 32, "Generate", function() {
         var output = obj_macaw_demo.Generate();
         self.GetSibling("OUTPUT_GEN").text = "Generation time: " + string(output.noise) + " ms";
