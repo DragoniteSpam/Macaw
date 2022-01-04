@@ -2,6 +2,7 @@ width = 128;
 height = 128;
 octaves = 8;
 code_type = 0;
+amplitude = 255;
 
 sprite = -1;
 
@@ -50,6 +51,12 @@ ui.AddContent([
     (new EmuProgressBar(32, EMU_AUTO, 256, 32, 8, 1, 16, true, self.octaves, function() {
         obj_macaw_demo.octaves = self.value;
         self.GetSibling("OCTAVES_LABEL").text = "Octaves: " + string(self.value);
+    })),
+    (new EmuText(32, EMU_AUTO, 256, 32, "Amplitude: " + string(self.amplitude)))
+        .SetID("AMPLITUDE_LABEL"),
+    (new EmuProgressBar(32, EMU_AUTO, 256, 32, 8, 4, 255, true, self.amplitude, function() {
+        obj_macaw_demo.amplitude = self.value;
+        self.GetSibling("AMPLITUDE_LABEL").text = "Amplitude: " + string(self.value);
     }))
         .SetIntegersOnly(true),
     (new EmuRadioArray(32, EMU_AUTO, 256, 32, "Code type:", self.code_type, function() {
@@ -72,8 +79,8 @@ Generate = function() {
     
     var t0 = get_timer();
     switch (self.code_type) {
-        case 0: var macaw = macaw_generate(self.width, self.height, self.octaves, 256); break;
-        case 1: var macaw = macaw_generate_dll(self.width, self.height, self.octaves, 256); break;
+        case 0: var macaw = macaw_generate(self.width, self.height, self.octaves, self.amplitude); break;
+        case 1: var macaw = macaw_generate_dll(self.width, self.height, self.octaves, self.amplitude); break;
     }
     var time_gen = (get_timer() - t0) / 1000;
     
