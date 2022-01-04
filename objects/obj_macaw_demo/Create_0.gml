@@ -93,7 +93,8 @@ ui.AddContent([
 ]);
 
 Generate = function() {
-    if (sprite_exists(self.sprite)) sprite_delete(self.sprite);
+    if (self.sprite != -1) sprite_delete(self.sprite);
+    if (self.vbuff != -1) vertex_delete_buffer(self.vbuff);
     
     var t0 = get_timer();
     switch (self.code_type) {
@@ -106,5 +107,14 @@ Generate = function() {
     self.sprite = macaw_to_sprite(macaw);
     var time_sprite = (get_timer() - t0) / 1000;
     
-    return { noise: time_gen, sprite: time_sprite };
+    var t0 = get_timer();
+    self.vbuff = macaw_to_vbuff(macaw);
+    self.vbuff_width = width;
+    self.vbuff_height = height;
+    var time_terrain = (get_timer() - t0) / 1000;
+    
+    macaw_destroy(macaw);
+    
+    return { noise: time_gen, sprite: time_sprite, terrain: time_terrain };
+};
 };
