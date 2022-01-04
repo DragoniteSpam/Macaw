@@ -144,6 +144,39 @@ function macaw_to_sprite(macaw) {
     return spr;
 }
 
+function macaw_to_vbuff(macaw) {
+    static format = undefined;
+    if (format == undefined) {
+        vertex_format_begin();
+        vertex_format_add_position_3d();
+        format = vertex_format_end();
+    }
+    
+    var vbuff = vertex_create_buffer();
+    vertex_begin(vbuff, format);
+    
+    var noise = macaw.noise;
+    for (var i = 0; i < macaw.width - 1; i++) {
+        for (var j = 0; j < macaw.height - 1; j++) {
+            var h00 = floor(buffer_peek(noise, 4 * ( j      * macaw.width +  i     ), buffer_f32));
+            var h01 = floor(buffer_peek(noise, 4 * ((j + 1) * macaw.width +  i     ), buffer_f32));
+            var h10 = floor(buffer_peek(noise, 4 * ( j      * macaw.width + (i + 1)), buffer_f32));
+            var h11 = floor(buffer_peek(noise, 4 * ((j + 1) * macaw.width + (i + 1)), buffer_f32));
+            vertex_position_3d(vbuff, i,     j,     h00);
+            vertex_position_3d(vbuff, i + 1, j,     h10);
+            vertex_position_3d(vbuff, i + 1, j + 1, h11);
+            vertex_position_3d(vbuff, i + 1, j + 1, h11);
+            vertex_position_3d(vbuff, i,     j + 1, h01);
+            vertex_position_3d(vbuff, i,     j,     h00);
+        }
+    }
+    
+    vertex_end(vbuff);
+    vertex_freeze(vbuff);
+    
+    return vbuff;
+}
+
 function macaw_destroy(macaw) {
     buffer_delete(macaw.noise);
 }
