@@ -24,7 +24,9 @@ function macaw_generate_dll(w, h, octaves, amplitude) {
 function macaw_generate(w, h, octave_count, amplitude) {
     static macaw_white_noise = function(w, h) {
         var current_seed = random_get_seed();
-        random_set_seed(global.__macaw_seed);
+        if (current_seed != global.__macaw_seed) {
+            random_set_seed(global.__macaw_seed);
+        }
         var array = array_create(w * h);
         var i = 0;
         repeat (w) {
@@ -34,7 +36,10 @@ function macaw_generate(w, h, octave_count, amplitude) {
             }
             i++;
         }
-        random_set_seed(current_seed);
+        global.__macaw_seed = random_get_seed();
+        if (current_seed != global.__macaw_seed) {
+            random_set_seed(current_seed);
+        }
         return array;
     };
     
