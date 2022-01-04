@@ -4,7 +4,7 @@ octaves = 8;
 code_type = 0;
 demo_type = 0;
 amplitude = 255;
-seed = irandom(0xffffffff);
+seed = irandom(0xffffff);
 
 sprite = -1;
 
