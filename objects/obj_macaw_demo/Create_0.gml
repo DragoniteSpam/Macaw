@@ -3,6 +3,7 @@ height = 128;
 octaves = 8;
 code_type = 0;
 amplitude = 255;
+seed = irandom(0xffffffff);
 
 sprite = -1;
 
@@ -51,7 +52,8 @@ ui.AddContent([
     (new EmuProgressBar(32, EMU_AUTO, 256, 32, 8, 1, 16, true, self.octaves, function() {
         obj_macaw_demo.octaves = self.value;
         self.GetSibling("OCTAVES_LABEL").text = "Octaves: " + string(self.value);
-    })),
+    }))
+        .SetIntegersOnly(true),
     (new EmuText(32, EMU_AUTO, 256, 32, "Amplitude: " + string(self.amplitude)))
         .SetID("AMPLITUDE_LABEL"),
     (new EmuProgressBar(32, EMU_AUTO, 256, 32, 8, 4, 255, true, self.amplitude, function() {
@@ -59,6 +61,18 @@ ui.AddContent([
         self.GetSibling("AMPLITUDE_LABEL").text = "Amplitude: " + string(self.value);
     }))
         .SetIntegersOnly(true),
+    (new EmuInput(32, EMU_AUTO, 256, 32, "Seed:", string(self.seed), "any string will do", 32, E_InputTypes.STRING, function() {
+        if (string_length(self.value) > 0 && string_digits(self.value) == self.value) {
+            obj_macaw_demo.seed = real(self.value);
+        } else {
+            // MD5 will produce a hex value that's 32 hextets long, which will cause problems
+            // if we try to convert it to an int64, so we only use the first 15 digits
+            obj_macaw_demo.seed = real(ptr(string_copy(md5_string_utf8(self.value), 1, 15)));
+        }
+        macaw_set_seed(obj_macaw_demo.seed);
+    }))
+        .SetID("HEIGHT")
+        .SetRealNumberBounds(4, 8192),
     (new EmuRadioArray(32, EMU_AUTO, 256, 32, "Code type:", self.code_type, function() {
         obj_macaw_demo.code_type = self.value;
     }))
