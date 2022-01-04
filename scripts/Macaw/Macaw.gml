@@ -2,12 +2,12 @@
 
 global.__macaw_seed = 0;
 
-function macaw_generate_dll(w, h, octaves, height) {
+function macaw_generate_dll(w, h, octaves, amplitude) {
     var perlin = buffer_create(w * h * 4, buffer_fixed, 4);
     
     if (os_type == os_windows && os_browser == browser_not_a_browser) {
         __macaw_set_octaves(octaves);
-        __macaw_set_height(height);
+        __macaw_set_height(amplitude);
         __macaw_generate(buffer_get_address(perlin), w, h);
     } else {
         show_message("DLL version not supported on this target platform - please use the GML version instead");
@@ -17,10 +17,11 @@ function macaw_generate_dll(w, h, octaves, height) {
         noise: perlin,
         width: w,
         height: h,
+        amplitude: amplitude,
     };
 }
 
-function macaw_generate(w, h, octave_count, height) {
+function macaw_generate(w, h, octave_count, amplitude) {
     static macaw_white_noise = function(w, h) {
         var current_seed = random_get_seed();
         random_set_seed(global.__macaw_seed);
@@ -84,7 +85,7 @@ function macaw_generate(w, h, octave_count, height) {
     var base_noise = macaw_white_noise(w, h);
     var len = w * h * 4;
     var persistence = 0.5;
-    var amplitude = 1;
+    var amp = 1;
     var total_amplitude = 0;
     
     var smooth_noise = macaw_smooth_noise(base_noise, w, h, octave_count);
@@ -92,8 +93,8 @@ function macaw_generate(w, h, octave_count, height) {
     var perlin = buffer_create(len, buffer_fixed, 4);
     
     for (var o = octave_count - 1; o >= 0; o--) {
-        amplitude *= persistence;
-        total_amplitude += amplitude;
+        amp *= persistence;
+        total_amplitude += amp;
         var base_a = w * h * o;
         
         var i = 0;
@@ -101,7 +102,7 @@ function macaw_generate(w, h, octave_count, height) {
             var base_b = i++ * h;
             var j = 0;
             repeat (h) {
-                buffer_poke(perlin, (base_b + j) * 4, buffer_f32, buffer_peek(perlin, (base_b + j) * 4, buffer_f32) + buffer_peek(smooth_noise, (base_a + base_b + j) * 4, buffer_f32) * amplitude);
+                buffer_poke(perlin, (base_b + j) * 4, buffer_f32, buffer_peek(perlin, (base_b + j) * 4, buffer_f32) + buffer_peek(smooth_noise, (base_a + base_b + j) * 4, buffer_f32) * amp);
                 j++;
             }
         }
@@ -109,7 +110,7 @@ function macaw_generate(w, h, octave_count, height) {
     
     var index = 0;
     repeat (len / 4) {
-        buffer_poke(perlin, index, buffer_f32, buffer_peek(perlin, index, buffer_f32) / total_amplitude * height);
+        buffer_poke(perlin, index, buffer_f32, buffer_peek(perlin, index, buffer_f32) / total_amplitude * amplitude);
         index += 4;
     }
     
@@ -117,6 +118,7 @@ function macaw_generate(w, h, octave_count, height) {
         noise: perlin,
         width: w,
         height: h,
+        amplitude: amplitude,
     }
 }
 
