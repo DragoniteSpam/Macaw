@@ -91,7 +91,15 @@ ui.AddContent([
         self.GetSibling("OUTPUT_SPRITE").text = "Sprite time: " + string(output.sprite) + " ms";
         self.GetSibling("OUTPUT_TERRAIN").text = "Terrain time: " + string(output.terrain) + " ms";
     }),
-    (new EmuText(32, EMU_AUTO, 256, 32, ""))
+    (new EmuRenderSurface(352, EMU_BASE, 640, 640, function() {
+        draw_clear(c_black);
+        obj_macaw_demo.Render(self.width, self.height);
+    }, function() {
+    }, function() {
+    }))
+        .SetID("3D"),
+    new EmuText(1024, EMU_BASE, 256, 32, "YYC: " + (code_is_compiled() ? "True" : "Flase")),
+    (new EmuText(1024, EMU_AUTO, 256, 32, ""))
         .SetID("OUTPUT_GEN"),
     (new EmuText(1024, EMU_AUTO, 256, 32, ""))
         .SetID("OUTPUT_SPRITE"),
@@ -124,4 +132,6 @@ Generate = function() {
     
     return { noise: time_gen, sprite: time_sprite, terrain: time_terrain };
 };
+
+Render = function(w, h) {
 };
