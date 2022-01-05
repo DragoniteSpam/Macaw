@@ -16,14 +16,12 @@ ui = new EmuCore(0, 0, window_get_width(), window_get_height());
 
 ui.AddContent([
     new EmuText(32, EMU_AUTO, 256, 32, "[c_yellow]Macaw: Perlin noise"),
-    //new EmuText(32, EMU_AUTO, 256, 32, "GML version: " + MACAW_VERSION),
-    //new EmuText(32, EMU_AUTO, 256, 32, "DLL version: " + __macaw_version()),
-    (new EmuInput(32, EMU_AUTO, 256, 32, "Width:", string(self.width), "4...8192", 4, E_InputTypes.INT, function() {
+    (new EmuInput(32, EMU_AUTO, 256, 32, "Width:", string(self.width), "16...2048", 4, E_InputTypes.INT, function() {
         obj_macaw_demo.width = real(self.value);
     }))
         .SetID("WIDTH")
         .SetRealNumberBounds(4, 8192),
-    (new EmuInput(32, EMU_AUTO, 256, 32, "Height:", string(self.height), "4...8192", 4, E_InputTypes.INT, function() {
+    (new EmuInput(32, EMU_AUTO, 256, 32, "Height:", string(self.height), "16...2048", 4, E_InputTypes.INT, function() {
         obj_macaw_demo.height = real(self.value);
     }))
         .SetID("HEIGHT")
