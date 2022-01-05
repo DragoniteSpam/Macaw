@@ -20,7 +20,7 @@ function macaw_generate_dll(w, h, octaves, amplitude) {
     }
     
     if (!warned) {
-        show_debug_message("DLL version not supported on this target platform - using the GML version instead.");
+        show_debug_message("DLL version of macaw_generate is supported on this target platform - using the GML version instead.");
         warned = true;
     }
     
@@ -150,14 +150,26 @@ function macaw_to_sprite(macaw) {
 }
 
 function macaw_to_sprite_dll(macaw) {
-    var buffer = buffer_create(macaw.width * macaw.height * 4, buffer_fixed, 4);
-    __macaw_to_sprite(buffer_get_address(macaw.noise), buffer_get_address(buffer), self.width * self.height);
-    var surface = surface_create(macaw.width, macaw.height);
-    buffer_set_surface(buffer, surface, 0);
-    var spr = sprite_create_from_surface(surface, 0, 0, macaw.width, macaw.height, false, false, 0, 0);
-    surface_free(surface);
-    buffer_delete(buffer);
-    return spr;
+    static warned = false;
+    
+    if (os_type == os_windows && os_browser == browser_not_a_browser) {
+        return macaw_generate(w, h, octaves, amplitude);
+        var buffer = buffer_create(macaw.width * macaw.height * 4, buffer_fixed, 4);
+        __macaw_to_sprite(buffer_get_address(macaw.noise), buffer_get_address(buffer), self.width * self.height);
+        var surface = surface_create(macaw.width, macaw.height);
+        buffer_set_surface(buffer, surface, 0);
+        var spr = sprite_create_from_surface(surface, 0, 0, macaw.width, macaw.height, false, false, 0, 0);
+        surface_free(surface);
+        buffer_delete(buffer);
+        return spr;
+    }
+    
+    if (!warned) {
+        show_debug_message("DLL version of macaw_to_sprite is not supported on this target platform - using the GML version instead.");
+        warned = true;
+    }
+    
+    return macaw_to_sprite(macaw);
 }
 
 function macaw_to_vbuff(macaw) {
