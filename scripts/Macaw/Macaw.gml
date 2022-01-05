@@ -11,12 +11,7 @@ function macaw_generate_dll(w, h, octaves, amplitude) {
         __macaw_set_height(amplitude);
         __macaw_generate(buffer_get_address(perlin), w, h);
         
-        return {
-            noise: perlin,
-            width: w,
-            height: h,
-            amplitude: amplitude,
-        };
+        return new __macaw_class(perlin, w, h, amplitude);
     }
     
     if (!warned) {
@@ -121,12 +116,7 @@ function macaw_generate(w, h, octave_count, amplitude) {
         index += 4;
     }
     
-    return {
-        noise: perlin,
-        width: w,
-        height: h,
-        amplitude: amplitude,
-    }
+    return new __macaw_class(perlin, w, h, amplitude);
 }
 
 function macaw_to_sprite(macaw) {
@@ -227,10 +217,6 @@ function macaw_to_vbuff_dll(macaw) {
     return macaw_to_vbuff(macaw);
 }
 
-function macaw_destroy(macaw) {
-    buffer_delete(macaw.noise);
-}
-
 function macaw_version() {
     show_debug_message("Macaw GML version: " + MACAW_VERSION);
     if (os_type == os_windows && os_browser == browser_not_a_browser) {
@@ -246,6 +232,29 @@ function macaw_set_seed(seed) {
     seed = real(ptr(string_copy(md5_string_utf8(string(seed)), 1, 15)));
     global.__macaw_seed = seed;
     __macaw_set_seed(seed);
+}
+
+function __macaw_class(noise, w, h, amplitude) constructor {
+    self.noise = noise;
+    self.width = w;
+    self.height = h;
+    self.amplitude = amplitude;
+            
+    static Get = function(x, y) {
+        x = floor(clamp(x, 0, self.width - 1));
+        y = floor(clamp(y, 0, self.height - 1));
+        return buffer_peek(self.noise, ((x * self.height) + y) * 4, buffer_f32);
+    };
+            
+    static GetNormalized = function(u, v) {
+        return eslf.Get(x * self.width, y * self.height);
+    };
+    
+    static GetNormalised = GetNormalized;
+    
+    static Destroy = function() {
+        buffer_delete(self.noise);
+    };
 }
 
 macaw_version();

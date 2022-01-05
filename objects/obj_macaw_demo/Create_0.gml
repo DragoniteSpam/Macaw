@@ -120,7 +120,7 @@ Generate = function() {
     self.vbuff_height = height;
     var time_terrain = (get_timer() - t0) / 1000;
     
-    macaw_destroy(macaw);
+    macaw.Destroy();
     
     return { noise: time_gen, sprite: time_sprite, terrain: time_terrain };
 };
