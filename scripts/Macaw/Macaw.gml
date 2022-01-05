@@ -3,22 +3,28 @@
 global.__macaw_seed = 0;
 
 function macaw_generate_dll(w, h, octaves, amplitude) {
+    static warned = false;
     var perlin = buffer_create(w * h * 4, buffer_fixed, 4);
     
     if (os_type == os_windows && os_browser == browser_not_a_browser) {
         __macaw_set_octaves(octaves);
         __macaw_set_height(amplitude);
         __macaw_generate(buffer_get_address(perlin), w, h);
-    } else {
-        show_message("DLL version not supported on this target platform - please use the GML version instead");
+        
+        return {
+            noise: perlin,
+            width: w,
+            height: h,
+            amplitude: amplitude,
+        };
     }
     
-    return {
-        noise: perlin,
-        width: w,
-        height: h,
-        amplitude: amplitude,
-    };
+    if (!warned) {
+        show_debug_message("DLL version not supported on this target platform - using the GML version instead.");
+        warned = true;
+    }
+    
+    return macaw_generate(w, h, octaves, amplitude);
 }
 
 function macaw_generate(w, h, octave_count, amplitude) {
