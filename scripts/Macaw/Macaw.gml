@@ -29,8 +29,7 @@ function macaw_generate_dll(w, h, octaves, amplitude) {
 
 function macaw_generate(w, h, octave_count, amplitude) {
     static macaw_white_noise = function(w, h) {
-        var current_seed = random_get_seed();
-        if (current_seed != global.__macaw_seed) {
+        if (global.__macaw_seed != random_get_seed()) {
             random_set_seed(global.__macaw_seed);
         }
         var array = array_create(w * h);
@@ -43,9 +42,6 @@ function macaw_generate(w, h, octave_count, amplitude) {
             i++;
         }
         global.__macaw_seed = random_get_seed();
-        if (current_seed != global.__macaw_seed) {
-            random_set_seed(current_seed);
-        }
         return array;
     };
     
@@ -153,7 +149,6 @@ function macaw_to_sprite_dll(macaw) {
     static warned = false;
     
     if (os_type == os_windows && os_browser == browser_not_a_browser) {
-        return macaw_generate(w, h, octaves, amplitude);
         var buffer = buffer_create(macaw.width * macaw.height * 4, buffer_fixed, 4);
         __macaw_to_sprite(buffer_get_address(macaw.noise), buffer_get_address(buffer), self.width * self.height);
         var surface = surface_create(macaw.width, macaw.height);
