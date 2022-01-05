@@ -65,13 +65,7 @@ ui.AddContent([
     }))
         .SetIntegersOnly(true),
     (new EmuInput(32, EMU_AUTO, 256, 32, "Seed:", string(self.seed), "any string will do", 32, E_InputTypes.STRING, function() {
-        if (string_length(self.value) > 0 && string_digits(self.value) == self.value) {
-            obj_macaw_demo.seed = real(self.value);
-        } else {
-            // MD5 will produce a hex value that's 32 hextets long, which will cause problems
-            // if we try to convert it to an int64, so we only use the first 15 digits
-            obj_macaw_demo.seed = real(ptr(string_copy(md5_string_utf8(self.value), 1, 15)));
-        }
+        obj_macaw_demo.seed = self.value;
         macaw_set_seed(obj_macaw_demo.seed);
     }))
         .SetRealNumberBounds(4, 8192),
