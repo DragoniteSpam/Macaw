@@ -111,11 +111,11 @@ Generate = function() {
     var time_gen = (get_timer() - t0) / 1000;
     
     var t0 = get_timer();
-    self.sprite = macaw_to_sprite_dll(macaw);
+    self.sprite = macaw.ToSpriteDLL();
     var time_sprite = (get_timer() - t0) / 1000;
     
     var t0 = get_timer();
-    self.vbuff = macaw_to_vbuff_dll(macaw);
+    self.vbuff = macaw.ToVbuffDLL();
     self.vbuff_width = width;
     self.vbuff_height = height;
     var time_terrain = (get_timer() - t0) / 1000;
