@@ -1,4 +1,4 @@
-#macro MACAW_VERSION "1.0.2"
+#macro MACAW_VERSION "1.0.3"
 
 global.__macaw_seed = 0;
 
