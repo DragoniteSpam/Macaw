@@ -206,6 +206,7 @@ function macaw_to_vbuff(macaw) {
 }
 
 function macaw_to_vbuff_dll(macaw) {
+    static warned = false;
     static format = undefined;
     if (format == undefined) {
         vertex_format_begin();
@@ -213,14 +214,22 @@ function macaw_to_vbuff_dll(macaw) {
         format = vertex_format_end();
     }
     
-    var data = buffer_create((macaw.width - 1) * (macaw.height - 1) * 4 * 18, buffer_fixed, 1);
-    buffer_fill(data, 0, buffer_f32, 0, buffer_get_size(data));
-    __macaw_to_vbuff(buffer_get_address(macaw.noise), buffer_get_address(data), macaw.width, macaw.height);
-    var vbuff = vertex_create_buffer_from_buffer(data, format);
-    vertex_freeze(vbuff);
-    buffer_delete(data);
+    if (os_type == os_windows && os_browser == browser_not_a_browser) {
+        var data = buffer_create((macaw.width - 1) * (macaw.height - 1) * 4 * 18, buffer_fixed, 1);
+        buffer_fill(data, 0, buffer_f32, 0, buffer_get_size(data));
+        __macaw_to_vbuff(buffer_get_address(macaw.noise), buffer_get_address(data), macaw.width, macaw.height);
+        var vbuff = vertex_create_buffer_from_buffer(data, format);
+        vertex_freeze(vbuff);
+        buffer_delete(data);
+        return vbuff;
+    }
     
-    return vbuff;
+    if (!warned) {
+        show_debug_message("DLL version of macaw_to_vbuff is not supported on this target platform - using the GML version instead.");
+        warned = true;
+    }
+    
+    return macaw_to_vbuff(macaw);
 }
 
 function macaw_destroy(macaw) {
