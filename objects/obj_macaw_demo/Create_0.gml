@@ -116,6 +116,7 @@ Generate = function() {
     
     var t0 = get_timer();
     self.vbuff = macaw.ToVbuffDLL();
+    vertex_freeze(self.vbuff);
     self.vbuff_width = width;
     self.vbuff_height = height;
     var time_terrain = (get_timer() - t0) / 1000;

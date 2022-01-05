@@ -225,7 +225,6 @@ function __macaw_class(noise, w, h, amplitude) constructor {
         }
     
         vertex_end(vbuff);
-        vertex_freeze(vbuff);
     
         return vbuff;
     }
@@ -238,7 +237,6 @@ function __macaw_class(noise, w, h, amplitude) constructor {
             buffer_fill(data, 0, buffer_f32, 0, buffer_get_size(data));
             __macaw_to_vbuff(buffer_get_address(self.noise), buffer_get_address(data), self.width, self.height);
             var vbuff = vertex_create_buffer_from_buffer(data, self.format);
-            vertex_freeze(vbuff);
             buffer_delete(data);
             return vbuff;
         }
