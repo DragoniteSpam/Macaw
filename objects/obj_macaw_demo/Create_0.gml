@@ -1,6 +1,6 @@
-width = 128;
-height = 128;
 octaves = 8;
+width = 256;
+height = 256;
 code_type = 0;
 demo_type = 0;
 amplitude = 255;
