@@ -119,7 +119,7 @@ Generate = function() {
     var time_gen = (get_timer() - t0) / 1000;
     
     var t0 = get_timer();
-    self.sprite = macaw_to_sprite(macaw);
+    self.sprite = macaw_to_sprite_dll(macaw);
     var time_sprite = (get_timer() - t0) / 1000;
     
     var t0 = get_timer();

@@ -133,9 +133,19 @@ function macaw_to_sprite(macaw) {
     buffer_seek(noise, buffer_seek_start, 0);
     repeat (macaw.width * macaw.height) {
         var intensity = floor(buffer_read(noise, buffer_f32));
-        var c = 0xff000000 | make_colour_rgb(intensity, intensity, intensity);
-        buffer_write(buffer, buffer_u32, c);
+        buffer_write(buffer, buffer_u32, 0xff000000 | make_colour_rgb(intensity, intensity, intensity));
     }
+    var surface = surface_create(macaw.width, macaw.height);
+    buffer_set_surface(buffer, surface, 0);
+    var spr = sprite_create_from_surface(surface, 0, 0, macaw.width, macaw.height, false, false, 0, 0);
+    surface_free(surface);
+    buffer_delete(buffer);
+    return spr;
+}
+
+function macaw_to_sprite_dll(macaw) {
+    var buffer = buffer_create(macaw.width * macaw.height * 4, buffer_fixed, 4);
+    __macaw_to_sprite(buffer_get_address(macaw.noise), buffer_get_address(buffer), self.width * self.height);
     var surface = surface_create(macaw.width, macaw.height);
     buffer_set_surface(buffer, surface, 0);
     var spr = sprite_create_from_surface(surface, 0, 0, macaw.width, macaw.height, false, false, 0, 0);
