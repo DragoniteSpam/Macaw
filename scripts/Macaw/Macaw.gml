@@ -168,10 +168,10 @@ function macaw_to_vbuff(macaw) {
     var noise = macaw.noise;
     for (var i = 0; i < macaw.width - 1; i++) {
         for (var j = 0; j < macaw.height - 1; j++) {
-            var h00 = floor(buffer_peek(noise, 4 * ( j      * macaw.width +  i     ), buffer_f32));
-            var h01 = floor(buffer_peek(noise, 4 * ((j + 1) * macaw.width +  i     ), buffer_f32));
-            var h10 = floor(buffer_peek(noise, 4 * ( j      * macaw.width + (i + 1)), buffer_f32));
-            var h11 = floor(buffer_peek(noise, 4 * ((j + 1) * macaw.width + (i + 1)), buffer_f32));
+            var h00 = buffer_peek(noise, 4 * ( j      * macaw.width + i    ), buffer_f32);
+            var h01 = buffer_peek(noise, 4 * ((j + 1) * macaw.width + i    ), buffer_f32);
+            var h10 = buffer_peek(noise, 4 * ( j      * macaw.width + i + 1), buffer_f32);
+            var h11 = buffer_peek(noise, 4 * ((j + 1) * macaw.width + i + 1), buffer_f32);
             vertex_position_3d(vbuff, i,     j,     h00);
             vertex_position_3d(vbuff, i + 1, j,     h10);
             vertex_position_3d(vbuff, i + 1, j + 1, h11);
@@ -187,6 +187,24 @@ function macaw_to_vbuff(macaw) {
     return vbuff;
 }
 
+function macaw_to_vbuff_dll(macaw) {
+    static format = undefined;
+    if (format == undefined) {
+        vertex_format_begin();
+        vertex_format_add_position_3d();
+        format = vertex_format_end();
+    }
+    
+    var data = buffer_create((macaw.width - 1) * (macaw.height - 1) * 4 * 18, buffer_fixed, 1);
+    buffer_fill(data, 0, buffer_f32, 0, buffer_get_size(data));
+    __macaw_to_vbuff(buffer_get_address(macaw.noise), buffer_get_address(data), macaw.width, macaw.height);
+    var vbuff = vertex_create_buffer_from_buffer(data, format);
+    vertex_freeze(vbuff);
+    buffer_delete(data);
+    
+    return vbuff;
+}
+
 function macaw_destroy(macaw) {
     buffer_delete(macaw.noise);
 }
@@ -194,7 +212,7 @@ function macaw_destroy(macaw) {
 function macaw_version() {
     show_debug_message("Macaw GML version: " + MACAW_VERSION);
     if (os_type == os_windows && os_browser == browser_not_a_browser) {
-        show_debug_message("Macaw DLL version: " + __macaw_version());
+        show_debug_message("Macaw DLL version: " + string(__macaw_version()));
     } else {
         show_debug_message("Macaw DLL version: N/A");
     }

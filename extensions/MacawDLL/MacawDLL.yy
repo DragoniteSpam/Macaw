@@ -32,11 +32,17 @@
         {"externalName":"macaw_set_height","kind":1,"help":"__macaw_set_height(height)","hidden":false,"returnType":2,"argCount":0,"args":[
             2,
           ],"resourceVersion":"1.0","name":"__macaw_set_height","tags":[],"resourceType":"GMExtensionFunction",},
-        {"externalName":"macaw_to_sprite","kind":1,"help":"__macaw_set_octaves(in, out, len)","hidden":false,"returnType":2,"argCount":0,"args":[
+        {"externalName":"macaw_to_sprite","kind":1,"help":"__macaw_to_sprite(in, out, len)","hidden":false,"returnType":2,"argCount":0,"args":[
             1,
             1,
             2,
           ],"resourceVersion":"1.0","name":"__macaw_to_sprite","tags":[],"resourceType":"GMExtensionFunction",},
+        {"externalName":"macaw_to_vbuff","kind":1,"help":"__macaw_to_vbuff(in, out, w, h)","hidden":false,"returnType":1,"argCount":0,"args":[
+            1,
+            1,
+            2,
+            2,
+          ],"resourceVersion":"1.0","name":"__macaw_to_vbuff","tags":[],"resourceType":"GMExtensionFunction",},
       ],"constants":[],"ProxyFiles":[],"copyToTargets":35184372088896,"order":[
         {"name":"__macaw_generate","path":"extensions/MacawDLL/MacawDLL.yy",},
         {"name":"__macaw_set_seed","path":"extensions/MacawDLL/MacawDLL.yy",},
@@ -44,6 +50,7 @@
         {"name":"__macaw_set_octaves","path":"extensions/MacawDLL/MacawDLL.yy",},
         {"name":"__macaw_set_height","path":"extensions/MacawDLL/MacawDLL.yy",},
         {"name":"__macaw_to_sprite","path":"extensions/MacawDLL/MacawDLL.yy",},
+        {"name":"__macaw_to_vbuff","path":"extensions/MacawDLL/MacawDLL.yy",},
       ],"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMExtensionFile",},
   ],
   "classname": "",

@@ -121,7 +121,7 @@ Generate = function() {
     var time_sprite = (get_timer() - t0) / 1000;
     
     var t0 = get_timer();
-    self.vbuff = macaw_to_vbuff(macaw);
+    self.vbuff = macaw_to_vbuff_dll(macaw);
     self.vbuff_width = width;
     self.vbuff_height = height;
     var time_terrain = (get_timer() - t0) / 1000;
