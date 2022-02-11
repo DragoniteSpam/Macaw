@@ -3,7 +3,7 @@
   "option_windows_executable_name": "macaw.exe",
   "option_windows_version": "1.0.3.0",
   "option_windows_company_info": "Wizarducks",
-  "option_windows_product_info": "Aquila Demo",
+  "option_windows_product_info": "Perlin Noise Demo",
   "option_windows_copyright_info": "(c) 2021-2022 Michael Peng",
   "option_windows_description_info": "Perlin noise generation for GameMaker",
   "option_windows_display_cursor": true,
