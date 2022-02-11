@@ -90,7 +90,7 @@ ui.AddContent([
     }, function() {
     }))
         .SetID("3D"),
-    new EmuText(1024, EMU_BASE, 256, 32, "YYC: " + (code_is_compiled() ? "True" : "Flase")),
+    new EmuText(1024, EMU_BASE, 256, 32, "YYC: " + (code_is_compiled() ? "True" : "False")),
     (new EmuText(1024, EMU_AUTO, 256, 32, ""))
         .SetID("OUTPUT_GEN"),
     (new EmuText(1024, EMU_AUTO, 256, 32, ""))
