@@ -63,7 +63,7 @@
     "eventToFunction": {},
     "eventStubScript": null,
     "parent": {"name":"spr_emu_checkbox_border","path":"sprites/spr_emu_checkbox_border/spr_emu_checkbox_border.yy",},
-    "resourceVersion": "1.3",
+    "resourceVersion": "1.4",
     "name": "spr_emu_checkbox_border",
     "tags": [],
     "resourceType": "GMSequence",

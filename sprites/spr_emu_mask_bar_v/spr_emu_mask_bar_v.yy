@@ -59,7 +59,7 @@
     "eventToFunction": {},
     "eventStubScript": null,
     "parent": {"name":"spr_emu_mask_bar_v","path":"sprites/spr_emu_mask_bar_v/spr_emu_mask_bar_v.yy",},
-    "resourceVersion": "1.3",
+    "resourceVersion": "1.4",
     "name": "spr_emu_mask_bar_v",
     "tags": [],
     "resourceType": "GMSequence",

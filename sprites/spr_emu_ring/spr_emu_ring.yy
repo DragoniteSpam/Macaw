@@ -59,7 +59,7 @@
     "eventToFunction": {},
     "eventStubScript": null,
     "parent": {"name":"spr_emu_ring","path":"sprites/spr_emu_ring/spr_emu_ring.yy",},
-    "resourceVersion": "1.3",
+    "resourceVersion": "1.4",
     "name": "spr_emu_ring",
     "tags": [],
     "resourceType": "GMSequence",

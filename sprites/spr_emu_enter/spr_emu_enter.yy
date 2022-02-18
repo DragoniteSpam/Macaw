@@ -59,7 +59,7 @@
     "eventToFunction": {},
     "eventStubScript": null,
     "parent": {"name":"spr_emu_enter","path":"sprites/spr_emu_enter/spr_emu_enter.yy",},
-    "resourceVersion": "1.3",
+    "resourceVersion": "1.4",
     "name": "spr_emu_enter",
     "tags": [],
     "resourceType": "GMSequence",

@@ -71,7 +71,7 @@
     "eventToFunction": {},
     "eventStubScript": null,
     "parent": {"name":"spr_emu_radio","path":"sprites/spr_emu_radio/spr_emu_radio.yy",},
-    "resourceVersion": "1.3",
+    "resourceVersion": "1.4",
     "name": "spr_emu_radio",
     "tags": [],
     "resourceType": "GMSequence",

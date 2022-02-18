@@ -73,7 +73,7 @@
     "eventToFunction": {},
     "eventStubScript": null,
     "parent": {"name":"spr_emu_knob","path":"sprites/spr_emu_knob/spr_emu_knob.yy",},
-    "resourceVersion": "1.3",
+    "resourceVersion": "1.4",
     "name": "spr_emu_knob",
     "tags": [],
     "resourceType": "GMSequence",

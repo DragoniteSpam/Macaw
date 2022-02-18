@@ -67,7 +67,7 @@
     "eventToFunction": {},
     "eventStubScript": null,
     "parent": {"name":"spr_emu_nineslice_tab","path":"sprites/spr_emu_nineslice_tab/spr_emu_nineslice_tab.yy",},
-    "resourceVersion": "1.3",
+    "resourceVersion": "1.4",
     "name": "spr_emu_nineslice_tab",
     "tags": [],
     "resourceType": "GMSequence",

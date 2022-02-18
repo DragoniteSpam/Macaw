@@ -71,7 +71,7 @@
     "eventToFunction": {},
     "eventStubScript": null,
     "parent": {"name":"spr_emu_scroll_arrow","path":"sprites/spr_emu_scroll_arrow/spr_emu_scroll_arrow.yy",},
-    "resourceVersion": "1.3",
+    "resourceVersion": "1.4",
     "name": "spr_emu_scroll_arrow",
     "tags": [],
     "resourceType": "GMSequence",

@@ -71,3 +71,19 @@ function emu_array_search(array, value) {
     }
     return -1;
 }
+
+/*
+//For a light mode, although i dont know if you really want to use that:
+#macro EMU_COLOR_BACK                   0xffffff
+#macro EMU_COLOR_DEFAULT                0x000000
+#macro EMU_COLOR_DISABLED               0xe0e0e0
+#macro EMU_COLOR_HELP_TEXT              0x404040
+#macro EMU_COLOR_HOVER                  0xffe5ce
+#macro EMU_COLOR_INPUT_REJECT           0x0000ff
+#macro EMU_COLOR_INPUT_WARN             0x3399ff
+#macro EMU_COLOR_LIST_TEXT              0x000000
+#macro EMU_COLOR_PROGRESS_BAR           0xff9900
+#macro EMU_COLOR_RADIO_ACTIVE           0x009900
+#macro EMU_COLOR_SELECTED               0xffb8ac
+#macro EMU_COLOR_WINDOWSKIN             0x339900
+*/

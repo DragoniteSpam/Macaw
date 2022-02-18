@@ -73,7 +73,7 @@
     "eventToFunction": {},
     "eventStubScript": null,
     "parent": {"name":"spr_emu_help","path":"sprites/spr_emu_help/spr_emu_help.yy",},
-    "resourceVersion": "1.3",
+    "resourceVersion": "1.4",
     "name": "spr_emu_help",
     "tags": [],
     "resourceType": "GMSequence",

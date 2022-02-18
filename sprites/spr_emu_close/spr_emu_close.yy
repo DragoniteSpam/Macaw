@@ -67,7 +67,7 @@
     "eventToFunction": {},
     "eventStubScript": null,
     "parent": {"name":"spr_emu_close","path":"sprites/spr_emu_close/spr_emu_close.yy",},
-    "resourceVersion": "1.3",
+    "resourceVersion": "1.4",
     "name": "spr_emu_close",
     "tags": [],
     "resourceType": "GMSequence",
