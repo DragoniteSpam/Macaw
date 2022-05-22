@@ -27,6 +27,29 @@ function macaw_generate_dll(w, h, octaves, amplitude) {
 }
 
 function macaw_generate(w, h, octave_count, amplitude) {
+    static pixel = undefined;
+    
+    if (pixel == undefined) {
+        var s = surface_create(1, 1);
+        surface_set_target(s);
+        draw_clear(c_white);
+        surface_reset_target();
+        pixel = sprite_create_from_surface(s, 0, 0, 1, 1, false, false, 0, 0);
+        surface_free(s);
+    }
+    
+    var surf = surface_create(w, h);
+    
+    surface_set_target(surf);
+    shader_set(shd_macaw);
+    draw_sprite_stretched(pixel, 0, 0, 0, w, h);
+    shader_reset();
+    surface_reset_target();
+    
+    return surf;
+}
+
+function macaw_generate_gml(w, h, octave_count, amplitude) {
     static macaw_white_noise = function(w, h) {
         if (global.__macaw_seed != random_get_seed()) {
             random_set_seed(global.__macaw_seed);
