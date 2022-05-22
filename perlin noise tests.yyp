@@ -112,6 +112,7 @@
     {"id":{"name":"scribble","path":"scripts/scribble/scribble.yy",},"order":7,},
     {"id":{"name":"scribble_msdf_thickness_offset","path":"scripts/scribble_msdf_thickness_offset/scribble_msdf_thickness_offset.yy",},"order":7,},
     {"id":{"name":"scribble_super_create","path":"scripts/scribble_super_create/scribble_super_create.yy",},"order":1,},
+    {"id":{"name":"shd_macaw","path":"shaders/shd_macaw/shd_macaw.yy",},"order":22,},
     {"id":{"name":"EmuButton","path":"scripts/EmuButton/EmuButton.yy",},"order":2,},
     {"id":{"name":"__scribble_config_behaviours","path":"scripts/__scribble_config_behaviours/__scribble_config_behaviours.yy",},"order":0,},
     {"id":{"name":"scribble_glyph_get","path":"scripts/scribble_glyph_get/scribble_glyph_get.yy",},"order":12,},
