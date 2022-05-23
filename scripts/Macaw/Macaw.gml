@@ -38,15 +38,16 @@ function macaw_generate(w, h, octave_count, amplitude) {
         surface_free(s);
     }
     
-    var surf = surface_create(w, h);
+    var base = surface_create(w, h);
     
-    surface_set_target(surf);
-    shader_set(shd_macaw);
+    surface_set_target(base);
+    shader_set(shd_macaw_noise);
+    shader_set_uniform_f(shader_get_uniform(shd_macaw_noise, "u_Amplitude"), amplitude);
     draw_sprite_stretched(pixel, 0, 0, 0, w, h);
     shader_reset();
     surface_reset_target();
     
-    return surf;
+    return base;
 }
 
 function macaw_generate_gml(w, h, octave_count, amplitude) {
