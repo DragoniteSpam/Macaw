@@ -12,7 +12,7 @@ float rand(vec2 c, float amplitude) {
 vec3 ValueToColor(float f) {
     const float SCALE_FACTOR = 16777215.0;
     float longValue = f * SCALE_FACTOR;
-    vec3 valueAsColor = vec3(mod(longDepth, 256.0), mod(longValue / 256.0, 256.0), longValue / 65536.0);
+    vec3 valueAsColor = vec3(mod(longValue, 256.0), mod(longValue / 256.0, 256.0), longValue / 65536.0);
     return floor(valueAsColor) / 255.0;
 }
 
