@@ -1,7 +1,7 @@
 {
   "resourceType": "GMProject",
   "resourceVersion": "1.6",
-  "name": "perlin noise tests",
+  "name": "Macaw",
   "resources": [
     {"id":{"name":"EmuInput","path":"scripts/EmuInput/EmuInput.yy",},"order":7,},
     {"id":{"name":"__scribble_system_glyph_data","path":"scripts/__scribble_system_glyph_data/__scribble_system_glyph_data.yy",},"order":10,},

@@ -4,7 +4,7 @@
   "name": "shd_macaw_blend",
   "type": 1,
   "parent": {
-    "name": "perlin noise tests",
-    "path": "perlin noise tests.yyp",
+    "name": "Macaw",
+    "path": "Macaw.yyp",
   },
 }

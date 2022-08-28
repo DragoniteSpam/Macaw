@@ -1,4 +1,7 @@
 {
+  "resourceType": "GMFont",
+  "resourceVersion": "1.0",
+  "name": "fnt_emu_default",
   "hinting": 0,
   "glyphOperations": 0,
   "interpreter": 0,
@@ -280,8 +283,4 @@
     "name": "Graphics",
     "path": "folders/Emu/Graphics.yy",
   },
-  "resourceVersion": "1.0",
-  "name": "fnt_emu_default",
-  "tags": [],
-  "resourceType": "GMFont",
 }
