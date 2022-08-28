@@ -48,12 +48,39 @@ function macaw_generate(w, h, octave_count, amplitude) {
     shader_reset();
     surface_reset_target();
     
+    gpu_set_texfilter(true);
+    
+    var surface_combine_main = surface_create(w, h);
+    var surface_combine_alt = surface_create(w, h);
+    var current_combine_target = surface_combine_main;
+    
     for (var i = 1; i < octave_count; i++) {
         octaves[i] = surface_create(ceil(w / power(2, i)), ceil(h / power(2, i)));
         surface_set_target(octaves[i]);
         draw_surface_stretched(octaves[i - 1], 0, 0, surface_get_width(octaves[i]), surface_get_height(octaves[i]));
         surface_reset_target();
+        
+        current_combine_target = (current_combine_target == surface_combine_main) ? surface_combine_alt : surface_combine_main;
+        
+        shader_set(shd_macaw_blend);
+        surface_set_target(current_combine_target);
+        shader_set_uniform_f(shader_get_uniform(shd_macaw_blend, "u_Amplitude"), power(2, i + 1));
+        texture_set_stage(shader_get_sampler_index(shd_macaw_blend, "samplerCombine"), surface_get_texture((current_combine_target == surface_combine_main) ? surface_combine_alt : surface_combine_main));
+        draw_surface_stretched(octaves[i], 0, 0, w, h);
+        surface_reset_target();
+        shader_reset();
     }
+    
+    var perlin = buffer_create(w * h * 4, buffer_fixed, 1);
+    buffer_set_surface(perlin, current_combine_target, 0);
+    /*
+    surface_free(surface_combine_main);
+    surface_free(surface_combine_alt);
+    for (var i = 0; i < octave_count; i++) {
+        surface_free(octaves[i]);
+    }
+    */
+    return new __macaw_class(perlin, w, h, amplitude);
 }
 
 function macaw_generate_gml(w, h, octave_count, amplitude) {
@@ -232,6 +259,7 @@ function __macaw_class(noise, w, h, amplitude) constructor {
 
     static ToSpriteDLL = function() {
         static warned = false;
+        return self.ToSprite();
     
         if (os_type == os_windows && os_browser == browser_not_a_browser) {
             var buffer = buffer_create(self.width * self.height * 4, buffer_fixed, 4);

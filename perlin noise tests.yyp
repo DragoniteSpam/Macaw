@@ -31,6 +31,7 @@
     {"id":{"name":"scribble_anim_cycle","path":"scripts/scribble_anim_cycle/scribble_anim_cycle.yy",},"order":1,},
     {"id":{"name":"scribble_typists_add_event","path":"scripts/scribble_typists_add_event/scribble_typists_add_event.yy",},"order":9,},
     {"id":{"name":"scribble_font_set_style_family","path":"scripts/scribble_font_set_style_family/scribble_font_set_style_family.yy",},"order":11,},
+    {"id":{"name":"shd_macaw_blend","path":"shaders/shd_macaw_blend/shd_macaw_blend.yy",},"order":23,},
     {"id":{"name":"__scribble_gc_collect","path":"scripts/__scribble_gc_collect/__scribble_gc_collect.yy",},"order":8,},
     {"id":{"name":"spr_emu_checker","path":"sprites/spr_emu_checker/spr_emu_checker.yy",},"order":6,},
     {"id":{"name":"scribble_anim_reset","path":"scripts/scribble_anim_reset/scribble_anim_reset.yy",},"order":5,},
