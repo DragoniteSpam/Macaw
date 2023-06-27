@@ -42,8 +42,8 @@ function macaw_generate(w, h, octave_count, amplitude) {
     
     octaves[0] = surface_create(w, h, surface_r32float);
     surface_set_target(octaves[0]);
-    shader_set(shd_macaw_noise);
-    shader_set_uniform_f(shader_get_uniform(shd_macaw_noise, "u_Amplitude"), amplitude);
+    shader_set(shd_macaw);
+    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Amplitude"), amplitude);
     draw_sprite_stretched(pixel, 0, 0, 0, w, h);
     shader_reset();
     surface_reset_target();
