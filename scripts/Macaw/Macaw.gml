@@ -40,7 +40,7 @@ function macaw_generate(w, h, octave_count, amplitude) {
     
     var octaves = array_create(octave_count);
     
-    octaves[0] = surface_create(w, h);
+    octaves[0] = surface_create(w, h, surface_r32float);
     surface_set_target(octaves[0]);
     shader_set(shd_macaw_noise);
     shader_set_uniform_f(shader_get_uniform(shd_macaw_noise, "u_Amplitude"), amplitude);
@@ -48,38 +48,10 @@ function macaw_generate(w, h, octave_count, amplitude) {
     shader_reset();
     surface_reset_target();
     
-    gpu_set_texfilter(true);
-    
-    var surface_combine_main = surface_create(w, h);
-    var surface_combine_alt = surface_create(w, h);
-    var current_combine_target = surface_combine_main;
-    
-    for (var i = 1; i < octave_count; i++) {
-        octaves[i] = surface_create(ceil(w / power(2, i)), ceil(h / power(2, i)));
-        surface_set_target(octaves[i]);
-        draw_surface_stretched(octaves[i - 1], 0, 0, surface_get_width(octaves[i]), surface_get_height(octaves[i]));
-        surface_reset_target();
-        
-        current_combine_target = (current_combine_target == surface_combine_main) ? surface_combine_alt : surface_combine_main;
-        
-        shader_set(shd_macaw_blend);
-        surface_set_target(current_combine_target);
-        shader_set_uniform_f(shader_get_uniform(shd_macaw_blend, "u_Amplitude"), power(2, i + 1));
-        texture_set_stage(shader_get_sampler_index(shd_macaw_blend, "samplerCombine"), surface_get_texture((current_combine_target == surface_combine_main) ? surface_combine_alt : surface_combine_main));
-        draw_surface_stretched(octaves[i], 0, 0, w, h);
-        surface_reset_target();
-        shader_reset();
-    }
-    
     var perlin = buffer_create(w * h * 4, buffer_fixed, 1);
-    buffer_set_surface(perlin, current_combine_target, 0);
-    /*
-    surface_free(surface_combine_main);
-    surface_free(surface_combine_alt);
-    for (var i = 0; i < octave_count; i++) {
-        surface_free(octaves[i]);
-    }
-    */
+    buffer_set_surface(perlin, octaves[0], 0);
+    surface_free(octaves[0]);
+    
     return new __macaw_class(perlin, w, h, amplitude);
 }
 
@@ -227,9 +199,9 @@ function __macaw_class(noise, w, h, amplitude) constructor {
     static Get = function(x, y) {
         x = floor(clamp(x, 0, self.width - 1));
         y = floor(clamp(y, 0, self.height - 1));
-        return buffer_peek(self.noise, ((x * self.height) + y) * 4, buffer_f32);
+        return buffer_peek(self.noise, ((x * self.height) + y) * 2, buffer_f16);
     };
-            
+    
     static GetNormalized = function(u, v) {
         return self.Get(x * self.width, y * self.height);
     };
@@ -242,48 +214,23 @@ function __macaw_class(noise, w, h, amplitude) constructor {
     
     #region Helper functions that may ocasionally be useful
     static ToSprite = function() {
-        var buffer = buffer_create(self.width * self.height * 4, buffer_fixed, 4);
-        var noise = self.noise;
-        buffer_seek(noise, buffer_seek_start, 0);
-        repeat (self.width * self.height) {
-            var intensity = floor(buffer_read(noise, buffer_f32));
-            buffer_write(buffer, buffer_u32, 0xff000000 | make_colour_rgb(intensity, intensity, intensity));
-        }
-        var surface = surface_create(self.width, self.height);
-        buffer_set_surface(buffer, surface, 0);
-        var spr = sprite_create_from_surface(surface, 0, 0, self.width, self.height, false, false, 0, 0);
-        surface_free(surface);
-        buffer_delete(buffer);
+        var surfacer32 = surface_create(self.width, self.height, surface_r32float);
+        var surfacergba8 = surface_create(self.width, self.height);
+        buffer_set_surface(self.noise, surfacer32, 0);
+        surface_set_target(surfacergba8);
+        draw_clear(c_black);
+        draw_surface(surfacer32, 0, 0);
+        surface_reset_target();
+        var spr = sprite_create_from_surface(surfacergba8, 0, 0, self.width, self.height, false, false, 0, 0);
+        surface_free(surfacergba8);
+        surface_free(surfacer32);
         return spr;
-    };
-
-    static ToSpriteDLL = function() {
-        static warned = false;
-        return self.ToSprite();
-    
-        if (os_type == os_windows && os_browser == browser_not_a_browser) {
-            var buffer = buffer_create(self.width * self.height * 4, buffer_fixed, 4);
-            __macaw_to_sprite(buffer_get_address(self.noise), buffer_get_address(buffer), self.width * self.height);
-            var surface = surface_create(self.width, self.height);
-            buffer_set_surface(buffer, surface, 0);
-            var spr = sprite_create_from_surface(surface, 0, 0, self.width, self.height, false, false, 0, 0);
-            surface_free(surface);
-            buffer_delete(buffer);
-            return spr;
-        }
-    
-        if (!warned) {
-            show_debug_message("DLL version of macaw_to_sprite is not supported on this target platform - using the GML version instead.");
-            warned = true;
-        }
-    
-        return self.ToSprite();
     };
     
     static ToVbuff = function() {
         var vbuff = vertex_create_buffer();
         vertex_begin(vbuff, self.format);
-    
+        
         var noise = self.noise;
         for (var i = 0; i < self.width - 1; i++) {
             for (var j = 0; j < self.height - 1; j++) {
