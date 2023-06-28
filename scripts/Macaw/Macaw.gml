@@ -48,6 +48,7 @@ function macaw_generate(w, h, octave_count, amplitude) {
     shader_set(shd_macaw);
     shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Amplitude"), amplitude);
     shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Seed"), buffer_peek(conversion_buffer, 0, buffer_u32) / 0xffffffff, buffer_peek(conversion_buffer, 4, buffer_u32) / 0xffffffff);
+    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Amplitude"), w, h);
     draw_sprite_stretched(pixel, 0, 0, 0, w, h);
     shader_reset();
     surface_reset_target();
