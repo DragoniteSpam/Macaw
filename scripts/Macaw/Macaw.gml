@@ -49,7 +49,7 @@ function macaw_generate(w, h, octave_count, amplitude) {
     surface_reset_target();
     
     var perlin = buffer_create(w * h * 4, buffer_fixed, 1);
-    buffer_set_surface(perlin, octaves[0], 0);
+    buffer_get_surface(perlin, octaves[0], 0);
     surface_free(octaves[0]);
     
     return new __macaw_class(perlin, w, h, amplitude);

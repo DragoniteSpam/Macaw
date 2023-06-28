@@ -1,20 +1,20 @@
-width = 256;
-height = 256;
-octaves = 6;
-code_type = 0;
-demo_type = 0;
-amplitude = 255;
-seed = irandom(0xffffff);
+self.width = 256;
+self.height = 256;
+self.octaves = 6;
+self.code_type = 0;
+self.demo_type = 0;
+self.amplitude = 255;
+self.seed = irandom(0xffffff);
 
-sprite = -1;
-vbuff = -1;
+self.sprite = -1;
+self.vbuff = -1;
 
-vbuff_width = width;
-vbuff_height = height;
+self.vbuff_width = width;
+self.vbuff_height = height;
 
-ui = new EmuCore(0, 0, window_get_width(), window_get_height());
+self.ui = new EmuCore(0, 0, window_get_width(), window_get_height());
 
-ui.AddContent([
+self.ui.AddContent([
     new EmuText(32, EMU_AUTO, 256, 32, "[c_yellow]Macaw: Perlin noise"),
     (new EmuInput(32, EMU_AUTO, 256, 32, "Width:", string(self.width), "16...2048", 4, E_InputTypes.INT, function() {
         obj_macaw_demo.width = real(self.value);
@@ -59,7 +59,7 @@ ui.AddContent([
         .SetIntegersOnly(true),
     (new EmuText(32, EMU_AUTO, 256, 32, "Amplitude: " + string(self.amplitude)))
         .SetID("AMPLITUDE_LABEL"),
-    (new EmuProgressBar(32, EMU_AUTO, 256, 32, 8, 4, 255, true, self.amplitude, function() {
+    (new EmuProgressBar(32, EMU_AUTO, 256, 32, 8, 1, 255, true, self.amplitude, function() {
         obj_macaw_demo.amplitude = self.value;
         self.GetSibling("AMPLITUDE_LABEL").text = "Amplitude: " + string(self.value);
     }))
@@ -104,17 +104,18 @@ Generate = function() {
     if (self.vbuff != -1) vertex_delete_buffer(self.vbuff);
     
     var t0 = get_timer();
+    var macaw = undefined;
     switch (self.code_type) {
-        case 0: var macaw = macaw_generate(self.width, self.height, self.octaves, self.amplitude); break;
-        case 1: var macaw = macaw_generate_dll(self.width, self.height, self.octaves, self.amplitude); break;
+        case 0: macaw = macaw_generate(self.width, self.height, self.octaves, self.amplitude); break;
+        case 1: macaw = macaw_generate_dll(self.width, self.height, self.octaves, self.amplitude); break;
     }
     var time_gen = (get_timer() - t0) / 1000;
     
-    var t0 = get_timer();
-    self.sprite = macaw.ToSpriteDLL();
+    t0 = get_timer();
+    self.sprite = macaw.ToSprite();
     var time_sprite = (get_timer() - t0) / 1000;
     
-    var t0 = get_timer();
+    t0 = get_timer();
     self.vbuff = macaw.ToVbuffDLL();
     vertex_freeze(self.vbuff);
     self.vbuff_width = width;
