@@ -108,7 +108,10 @@ function __macaw_class(noise, w, h, amplitude) constructor {
         buffer_set_surface(self.noise, surfacer32, 0);
         surface_set_target(surfacergba8);
         draw_clear(c_black);
+        shader_set(shd_macaw_spritification);
+        shader_set_uniform_f(shader_get_uniform(shd_macaw_spritification, "u_Amplitude"), self.amplitude);
         draw_surface(surfacer32, 0, 0);
+        shader_reset();
         surface_reset_target();
         var spr = sprite_create_from_surface(surfacergba8, 0, 0, self.width, self.height, false, false, 0, 0);
         surface_free(surfacergba8);

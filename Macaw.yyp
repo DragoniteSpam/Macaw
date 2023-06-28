@@ -147,6 +147,7 @@
     {"id":{"name":"scribble_anim_pulse","path":"scripts/scribble_anim_pulse/scribble_anim_pulse.yy",},},
     {"id":{"name":"fnt_emu_default","path":"fonts/fnt_emu_default/fnt_emu_default.yy",},},
     {"id":{"name":"scribble","path":"scripts/scribble/scribble.yy",},},
+    {"id":{"name":"shd_macaw_spritification","path":"shaders/shd_macaw_spritification/shd_macaw_spritification.yy",},},
     {"id":{"name":"scribble_msdf_thickness_offset","path":"scripts/scribble_msdf_thickness_offset/scribble_msdf_thickness_offset.yy",},},
     {"id":{"name":"scribble_super_create","path":"scripts/scribble_super_create/scribble_super_create.yy",},},
     {"id":{"name":"shd_macaw","path":"shaders/shd_macaw/shd_macaw.yy",},},
