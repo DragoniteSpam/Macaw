@@ -138,25 +138,27 @@ function macaw_generate_gml(w, h, octave_count, amplitude) {
 }
 
 function macaw_generate(w, h, octave_count, amplitude) {
-    static conversion_buffer = buffer_create(8, buffer_fixed, 4);
-    buffer_poke(conversion_buffer, 0, buffer_u64, global.__macaw_seed);
-    
-    static pixel = undefined;
-    // we need a sprite and not a draw_rectangle because we need UVs ლ(ಠ益ಠლ)
-    if (pixel == undefined) {
-        var s = surface_create(1, 1);
-        surface_set_target(s);
-        draw_clear(c_white);
-        surface_reset_target();
-        pixel = sprite_create_from_surface(s, 0, 0, 1, 1, false, false, 0, 0);
-        surface_free(s);
-    }
+    var table = array_create_ext(256, function(index) {
+        return index;
+    });
+    array_shuffle_ext(table);
     
     var surface = surface_create(w, h);
     surface_set_target(surface);
-    draw_clear(c_black);
+    draw_clear_alpha(c_black);
     shader_set(shd_macaw);
-    draw_sprite_stretched(pixel, 0, 0, 0, w, h);
+    
+    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Seed"), global.__macaw_seed);
+    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Seed"), random_range(25.11111, 29.99999));
+    shader_set_uniform_i_array(shader_get_uniform(shd_macaw, "u_Table"), table);
+    
+	draw_primitive_begin_texture(pr_trianglestrip, -1);
+	draw_vertex_texture(0, 0, 0, 0);
+	draw_vertex_texture(w, 0, 1, 0);
+	draw_vertex_texture(0, h, 0, 1);
+	draw_vertex_texture(w, h, 1, 1);
+	draw_primitive_end();
+    
     surface_reset_target();
     shader_reset();
     
