@@ -142,7 +142,7 @@ function macaw_generate(w, h, octave_count, amplitude) {
     buffer_poke(conversion_buffer, 0, buffer_u64, global.__macaw_seed);
     
     static pixel = undefined;
-    
+    // we need a sprite and not a draw_rectangle because we need UVs ლ(ಠ益ಠლ)
     if (pixel == undefined) {
         var s = surface_create(1, 1);
         surface_set_target(s);
@@ -152,21 +152,17 @@ function macaw_generate(w, h, octave_count, amplitude) {
         surface_free(s);
     }
     
-    var octaves = array_create(octave_count);
-    
-    octaves[0] = surface_create(w, h, surface_r32float);
-    surface_set_target(octaves[0]);
+    var surface = surface_create(w, h);
+    surface_set_target(surface);
+    draw_clear(c_black);
     shader_set(shd_macaw);
-    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Amplitude"), amplitude);
-    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Seed"), buffer_peek(conversion_buffer, 0, buffer_u32) / 0xffffffff, buffer_peek(conversion_buffer, 4, buffer_u32) / 0xffffffff);
-    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Dimensions"), w, h);
     draw_sprite_stretched(pixel, 0, 0, 0, w, h);
-    shader_reset();
     surface_reset_target();
+    shader_reset();
     
     var perlin = buffer_create(w * h * 4, buffer_fixed, 1);
-    buffer_get_surface(perlin, octaves[0], 0);
-    surface_free(octaves[0]);
+    buffer_get_surface(perlin, surface, 0);
+    surface_free(surface);
     
     return new __macaw_class(perlin, w, h, amplitude);
 }
