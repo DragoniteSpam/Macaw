@@ -137,7 +137,7 @@ function macaw_generate_gml(w, h, octave_count, amplitude) {
     return new __macaw_class(perlin, w, h, amplitude);
 }
 
-function macaw_generate(w, h, octave_count, amplitude) {
+function macaw_generate_perlin(w, h, octave_count, amplitude) {
     static source_table = array_create_ext(256, function(index) {
         return index;
     });
@@ -145,7 +145,7 @@ function macaw_generate(w, h, octave_count, amplitude) {
     var surface = surface_create(w, h, surface_r32float);
     surface_set_target(surface);
     draw_clear(c_black);
-    shader_set(shd_macaw);
+    shader_set(shd_macaw_perlin);
     
     var shader_seed = ((global.__macaw_seed / 1000) % 50) + 50;
     var current_seed = random_get_seed();
@@ -153,9 +153,9 @@ function macaw_generate(w, h, octave_count, amplitude) {
     var table = array_shuffle(source_table);
     random_set_seed(current_seed);
     
-    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Amplitude"), amplitude);
-    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Seed"), shader_seed);
-    shader_set_uniform_i_array(shader_get_uniform(shd_macaw, "u_Table"), table);
+    shader_set_uniform_f(shader_get_uniform(shd_macaw_perlin, "u_Amplitude"), amplitude);
+    shader_set_uniform_f(shader_get_uniform(shd_macaw_perlin, "u_Seed"), shader_seed);
+    shader_set_uniform_i_array(shader_get_uniform(shd_macaw_perlin, "u_Table"), table);
     
 	draw_primitive_begin_texture(pr_trianglestrip, -1);
 	draw_vertex_texture(0, 0, 0, 0);

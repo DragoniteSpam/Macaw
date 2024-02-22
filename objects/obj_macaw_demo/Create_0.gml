@@ -73,7 +73,11 @@ self.ui.AddContent([
     (new EmuRadioArray(32, EMU_AUTO, 256, 32, "Code type:", self.code_type, function() {
         obj_macaw_demo.code_type = self.value;
     }))
-        .AddOptions(["Native GML (cross-platform)", "Shaders (cross-platform)", "DLL (Windows only)"]),
+        .AddOptions([
+            "Native GML (cross-platform)",
+            "Perlin (shader, cross-platform)",
+            "DLL (Windows only)"
+        ]),
     (new EmuRadioArray(32, EMU_AUTO, 256, 32, "Demo type:", self.demo_type, function() {
         obj_macaw_demo.demo_type = self.value;
     }))
@@ -108,7 +112,7 @@ Generate = function() {
     var macaw = undefined;
     switch (self.code_type) {
         case 0: macaw = macaw_generate_gml(self.width, self.height, self.octaves, self.amplitude); break;
-        case 1: macaw = macaw_generate(self.width, self.height, self.octaves, self.amplitude); break;
+        case 1: macaw = macaw_generate_perlin(self.width, self.height, self.octaves, self.amplitude); break;
         case 2: macaw = macaw_generate_dll(self.width, self.height, self.octaves, self.amplitude); break;
     }
     var time_gen = (get_timer() - t0) / 1000;
