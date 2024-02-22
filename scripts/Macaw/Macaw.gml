@@ -145,7 +145,7 @@ function macaw_generate(w, h, octave_count, amplitude) {
     
     var surface = surface_create(w, h);
     surface_set_target(surface);
-    draw_clear_alpha(c_black);
+    draw_clear(c_black);
     shader_set(shd_macaw);
     
     shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Seed"), global.__macaw_seed);

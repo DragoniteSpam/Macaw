@@ -28,7 +28,7 @@
 
 #define M_PI   3.1415926535897932384626433832795
 
-float fade(float t) {
+vec3 fade(vec3 t) {
     return t * t * t * (t * (t * 6.0 - 15.0) + 10.0);
 }
 
@@ -49,40 +49,30 @@ float grad(int hash, float x, float y, float z) {
 }
 
 float perlin(vec3 pos, int[256] table) {
-    int xi = int(mod(pos.x, 256.0));                           
-    int yi = int(mod(pos.y, 256.0));                              
-    int zi = int(mod(pos.z, 256.0));  
+    ivec3 ii = ivec3(mod(pos, 256.0));
+    ivec3 jj = ivec3(mod(pos + 1.0, 256.0));
 	
-	int xj = int(mod(pos.x + 1.0, 256.0));
-	int yj = int(mod(pos.y + 1.0, 256.0));
-	int zj = int(mod(pos.z + 1.0, 256.0));
+	int aaa = table[table[table[ii.x] + ii.y]+ ii.z];
+    int aba = table[table[table[ii.x] + jj.y]+ ii.z];
+    int aab = table[table[table[ii.x] + ii.y]+ jj.z];
+    int abb = table[table[table[ii.x] + jj.y]+ jj.z];
+    int baa = table[table[table[jj.x] + ii.y]+ ii.z];
+    int bba = table[table[table[jj.x] + jj.y]+ ii.z];
+    int bab = table[table[table[jj.x] + ii.y]+ jj.z];
+    int bbb = table[table[table[jj.x] + jj.y]+ jj.z];
 	
-	int aaa = table[table[table[xi] + yi]+ zi];
-    int aba = table[table[table[xi] + yj]+ zi];
-    int aab = table[table[table[xi] + yi]+ zj];
-    int abb = table[table[table[xi] + yj]+ zj];
-    int baa = table[table[table[xj] + yi]+ zi];
-    int bba = table[table[table[xj] + yj]+ zi];
-    int bab = table[table[table[xj] + yi]+ zj];
-    int bbb = table[table[table[xj] + yj]+ zj];
-	
-    float xf = fract(pos.x);
-    float yf = fract(pos.y);
-    float zf = fract(pos.z);
-    
-    float u = fade(xf);
-    float v = fade(yf);
-    float w = fade(zf);
+    vec3 ff = fract(pos);
+    vec3 faded = fade(ff);
    
-    float x1 = mix(grad(aaa, xf, yf,       zf), grad(baa, xf - 1.0, yf,       zf), u);                                     
-    float y1 = mix(grad(aba, xf, yf - 1.0, zf), grad(bba, xf - 1.0, yf - 1.0, zf), u);
-    float z1 = mix(x1, y1, v);
+    float x1 = mix(grad(aaa, ff.x, ff.y,       ff.z), grad(baa, ff.x - 1.0, ff.y,       ff.z), faded.x);                                     
+    float y1 = mix(grad(aba, ff.x, ff.y - 1.0, ff.z), grad(bba, ff.x - 1.0, ff.y - 1.0, ff.z), faded.x);
+    float z1 = mix(x1, y1, faded.y);
 
-    float x2 = mix(grad(aab, xf, yf,       zf - 1.0), grad(bab, xf - 1.0, yf,       zf - 1.0), u);
-    float y2 = mix(grad(abb, xf, yf - 1.0, zf - 1.0), grad(bbb, xf - 1.0, yf - 1.0, zf - 1.0), u);
-    float z2 = mix (x2, y2, v);
+    float x2 = mix(grad(aab, ff.x, ff.y,       ff.z - 1.0), grad(bab, ff.x - 1.0, ff.y,       ff.z - 1.0), faded.x);
+    float y2 = mix(grad(abb, ff.x, ff.y - 1.0, ff.z - 1.0), grad(bbb, ff.x - 1.0, ff.y - 1.0, ff.z - 1.0), faded.x);
+    float z2 = mix (x2, y2, faded.y);
     
-	return (mix(z1, z2, w) + 1.0) * 0.5;	
+	return (mix(z1, z2, faded.z) + 1.0) * 0.5;	
 }
 
 varying vec2 v_vTexcoord;
