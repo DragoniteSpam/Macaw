@@ -138,18 +138,23 @@ function macaw_generate_gml(w, h, octave_count, amplitude) {
 }
 
 function macaw_generate(w, h, octave_count, amplitude) {
-    var table = array_create_ext(256, function(index) {
+    static source_table = array_create_ext(256, function(index) {
         return index;
     });
-    array_shuffle_ext(table);
     
-    var surface = surface_create(w, h);
+    var surface = surface_create(w, h, surface_r32float);
     surface_set_target(surface);
     draw_clear(c_black);
     shader_set(shd_macaw);
     
-    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Seed"), global.__macaw_seed);
-    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Seed"), random_range(25.11111, 29.99999));
+    var shader_seed = ((global.__macaw_seed / 1000) % 50) + 50;
+    var current_seed = random_get_seed();
+    random_set_seed(global.__macaw_seed);
+    var table = array_shuffle(source_table);
+    random_set_seed(current_seed);
+    
+    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Amplitude"), amplitude);
+    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Seed"), shader_seed);
     shader_set_uniform_i_array(shader_get_uniform(shd_macaw, "u_Table"), table);
     
 	draw_primitive_begin_texture(pr_trianglestrip, -1);
