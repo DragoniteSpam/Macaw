@@ -77,10 +77,11 @@ float perlin(vec3 pos, int[256] table) {
 
 varying vec2 v_vTexcoord;
 
+uniform float u_Amplitude;
 uniform float u_Seed;
 uniform int u_Table[256]; // permutation table of values 0 - 255
 
 void main() {
 	float value = perlin(vec3(sin(abs(v_vTexcoord * 0.5) * M_PI * 0.5) * u_Seed, fract(u_Seed) * 1.387), u_Table);
-    gl_FragColor = vec4(vec3(value), 1.0);
+    gl_FragColor = vec4(value * u_Amplitude, 0, 0, 1.0);
 }
