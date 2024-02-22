@@ -5,6 +5,7 @@ self.code_type = 0;
 self.demo_type = 0;
 self.amplitude = 255;
 self.seed = irandom(0xffffff);
+macaw_set_seed(string(self.seed));
 
 self.sprite = -1;
 self.vbuff = -1;
