@@ -16,7 +16,7 @@ self.vbuff_height = height;
 self.ui = new EmuCore(0, 0, window_get_width(), window_get_height());
 
 self.ui.AddContent([
-    new EmuText(32, EMU_AUTO, 256, 32, "[c_yellow]Macaw: Perlin noise"),
+    new EmuText(32, EMU_AUTO, 256, 32, "[c_yellow]Macaw: Noise in GameMaker"),
     (new EmuInput(32, EMU_AUTO, 256, 32, "Width:", string(self.width), "16...2048", 4, E_InputTypes.INT, function() {
         obj_macaw_demo.width = real(self.value);
     }))
@@ -75,8 +75,9 @@ self.ui.AddContent([
     }))
         .AddOptions([
             "Native GML (cross-platform)",
+            "DLL (Windows only)",
+            "Shader (cross-platform)",
             "Perlin (shader, cross-platform)",
-            "DLL (Windows only)"
         ]),
     (new EmuRadioArray(32, EMU_AUTO, 256, 32, "Demo type:", self.demo_type, function() {
         obj_macaw_demo.demo_type = self.value;
@@ -112,8 +113,9 @@ Generate = function() {
     var macaw = undefined;
     switch (self.code_type) {
         case 0: macaw = macaw_generate_gml(self.width, self.height, self.octaves, self.amplitude); break;
-        case 1: macaw = macaw_generate_perlin(self.width, self.height, self.octaves, self.amplitude); break;
-        case 2: macaw = macaw_generate_dll(self.width, self.height, self.octaves, self.amplitude); break;
+        case 1: macaw = macaw_generate_dll(self.width, self.height, self.octaves, self.amplitude); break;
+        case 2: macaw = macaw_generate_shader(self.width, self.height, self.octaves, self.amplitude); break;
+        case 3: macaw = macaw_generate_perlin(self.width, self.height, self.octaves, self.amplitude); break;
     }
     var time_gen = (get_timer() - t0) / 1000;
     

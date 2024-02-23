@@ -24,6 +24,7 @@
     {"name":"spr_emu_checkbox","order":4,"path":"sprites/spr_emu_checkbox/spr_emu_checkbox.yy",},
     {"name":"spr_emu_knob","order":10,"path":"sprites/spr_emu_knob/spr_emu_knob.yy",},
     {"name":"__scribble_gen_8_position_glyphs","order":7,"path":"scripts/__scribble_gen_8_position_glyphs/__scribble_gen_8_position_glyphs.yy",},
+    {"name":"shd_macaw","order":24,"path":"shaders/shd_macaw/shd_macaw.yy",},
     {"name":"scribble_anim_cycle","order":1,"path":"scripts/scribble_anim_cycle/scribble_anim_cycle.yy",},
     {"name":"scribble_typists_add_event","order":9,"path":"scripts/scribble_typists_add_event/scribble_typists_add_event.yy",},
     {"name":"scribble_font_set_style_family","order":11,"path":"scripts/scribble_font_set_style_family/scribble_font_set_style_family.yy",},

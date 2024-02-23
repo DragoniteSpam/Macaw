@@ -137,6 +137,36 @@ function macaw_generate_gml(w, h, octave_count, amplitude) {
     return new __macaw_class(perlin, w, h, amplitude);
 }
 
+function macaw_generate_shader(w, h, octave_count, amplitude) {
+    var surface = surface_create(w, h, surface_r32float);
+    surface_set_target(surface);
+    draw_clear(c_black);
+    shader_set(shd_macaw);
+    
+    var shader_seed = ((global.__macaw_seed / 1000) % 50) + 50;
+    
+    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Amplitude"), amplitude);
+    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Seed"), shader_seed);
+    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Resolution"), w, h);
+    shader_set_uniform_i(shader_get_uniform(shd_macaw, "u_Octaves"), octave_count);
+    
+	draw_primitive_begin(pr_trianglestrip);
+	draw_vertex(0, 0);
+	draw_vertex(w, 0);
+	draw_vertex(0, h);
+	draw_vertex(w, h);
+	draw_primitive_end();
+    
+    surface_reset_target();
+    shader_reset();
+    
+    var perlin = buffer_create(w * h * 4, buffer_fixed, 1);
+    buffer_get_surface(perlin, surface, 0);
+    surface_free(surface);
+    
+    return new __macaw_class(perlin, w, h, amplitude);
+}
+
 function macaw_generate_perlin(w, h, octave_count, amplitude) {
     static source_table = array_create_ext(256, function(index) {
         return index;

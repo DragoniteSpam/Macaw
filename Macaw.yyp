@@ -62,6 +62,7 @@
     {"id":{"name":"spr_emu_checkbox","path":"sprites/spr_emu_checkbox/spr_emu_checkbox.yy",},},
     {"id":{"name":"spr_emu_knob","path":"sprites/spr_emu_knob/spr_emu_knob.yy",},},
     {"id":{"name":"__scribble_gen_8_position_glyphs","path":"scripts/__scribble_gen_8_position_glyphs/__scribble_gen_8_position_glyphs.yy",},},
+    {"id":{"name":"shd_macaw","path":"shaders/shd_macaw/shd_macaw.yy",},},
     {"id":{"name":"scribble_anim_cycle","path":"scripts/scribble_anim_cycle/scribble_anim_cycle.yy",},},
     {"id":{"name":"scribble_typists_add_event","path":"scripts/scribble_typists_add_event/scribble_typists_add_event.yy",},},
     {"id":{"name":"scribble_font_set_style_family","path":"scripts/scribble_font_set_style_family/scribble_font_set_style_family.yy",},},
