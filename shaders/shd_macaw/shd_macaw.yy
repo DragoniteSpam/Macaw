@@ -4,7 +4,7 @@
   "name": "shd_macaw",
   "parent": {
     "name": "Macaw",
-    "path": "Macaw.yyp",
+    "path": "folders/Macaw.yy",
   },
   "type": 1,
 }

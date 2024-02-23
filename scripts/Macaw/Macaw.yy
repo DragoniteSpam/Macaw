@@ -6,6 +6,6 @@
   "isDnD": false,
   "parent": {
     "name": "Macaw",
-    "path": "Macaw.yyp",
+    "path": "folders/Macaw.yy",
   },
 }

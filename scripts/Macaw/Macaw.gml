@@ -1,4 +1,4 @@
-#macro MACAW_VERSION            "1.0.5"
+#macro MACAW_VERSION            "1.1.0"
 
 #macro MACAW_MAX_GEN_SIZE       16384
 
