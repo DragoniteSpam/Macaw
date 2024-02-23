@@ -10,7 +10,7 @@ function EmuProgressBar(x, y, w, h, thickness, value_min, value_max, draggable, 
     /// @region
     self.draggable = draggable;
     
-    self.color_bar = function() { return EMU_COLOR_PROGRESS_BAR };
+    self.color_bar = function() { return self.interactive ? EMU_COLOR_PROGRESS_BAR : EMU_COLOR_DISABLED; };
     /// @region
     self.color_back = function() { return EMU_COLOR_BACK };
     

@@ -86,23 +86,17 @@ self.ui.AddContent([
             case 0:
             case 1:
                 self.GetSibling("OCTAVES_LABEL").SetInteractive(true);
-                self.GetSibling("OCTAVES_LABEL").color = function() { return EMU_COLOR_DEFAULT };
                 self.GetSibling("OCTAVES").SetInteractive(true);
-                self.GetSibling("OCTAVES").color_bar = function() { return EMU_COLOR_PROGRESS_BAR };
                 self.GetSibling("OCTAVES_LABEL").text = $"Octaves: {obj_macaw_demo.octaves}";
                 break;
             case 2:
                 self.GetSibling("OCTAVES_LABEL").SetInteractive(true);
-                self.GetSibling("OCTAVES_LABEL").color = function() { return EMU_COLOR_DEFAULT };
                 self.GetSibling("OCTAVES").SetInteractive(true);
-                self.GetSibling("OCTAVES").color_bar = function() { return EMU_COLOR_PROGRESS_BAR };
                 self.GetSibling("OCTAVES_LABEL").text = $"Smoothness: {obj_macaw_demo.octaves}";
                 break;
             case 3:
                 self.GetSibling("OCTAVES_LABEL").SetInteractive(false);
-                self.GetSibling("OCTAVES_LABEL").color = function() { return EMU_COLOR_DISABLED };
                 self.GetSibling("OCTAVES").SetInteractive(false);
-                self.GetSibling("OCTAVES").color_bar = function() { return EMU_COLOR_DISABLED };
                 break;
         }
     }))
