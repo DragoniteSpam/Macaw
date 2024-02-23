@@ -147,8 +147,7 @@ function macaw_generate_shader(w, h, octave_count, amplitude) {
     
     shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Amplitude"), amplitude);
     shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Seed"), shader_seed);
-    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Resolution"), w, h);
-    shader_set_uniform_i(shader_get_uniform(shd_macaw, "u_Octaves"), octave_count);
+    shader_set_uniform_f(shader_get_uniform(shd_macaw, "u_Octaves"), octave_count);
     
 	draw_primitive_begin(pr_trianglestrip);
 	draw_vertex(0, 0);

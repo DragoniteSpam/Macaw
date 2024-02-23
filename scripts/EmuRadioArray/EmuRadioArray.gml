@@ -14,6 +14,8 @@ function EmuRadioArray(x, y, w, h, text, value, callback) : EmuCallback(x, y, w,
         return self;
     };
     
+    self.source_width = w;
+    
     static SetColumns = function(column_capacity, column_width) {
         if (column_capacity <= 0) column_capacity = 10000;
         for (var i = 0, n = array_length(self.contents); i < n; i++) {
@@ -22,7 +24,7 @@ function EmuRadioArray(x, y, w, h, text, value, callback) : EmuCallback(x, y, w,
             option.y = self.height * (1 + (i % column_capacity));
             option.width = column_width;
         }
-        self.width = (array_length(self.contents) div column_capacity) * column_width;
+        self.width = max(self.source_width, (array_length(self.contents) div column_capacity) * column_width);
         return self;
     };
     

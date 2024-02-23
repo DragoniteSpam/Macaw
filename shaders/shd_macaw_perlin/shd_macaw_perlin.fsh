@@ -28,11 +28,11 @@
 
 #define M_PI   3.1415926535897932384626433832795
 
-vec3 fade(vec3 t) {
+vec3 fade(in vec3 t) {
     return t * t * t * (t * (t * 6.0 - 15.0) + 10.0);
 }
 
-float grad(int hash, float x, float y, float z) {
+float grad(in int hash, in float x, in float y, in float z) {
     float h = mod(float(hash), 16.0);                                    
     float u = h < 8.0 ? x : y;                
     
@@ -48,7 +48,7 @@ float grad(int hash, float x, float y, float z) {
     return (mod(h, 2.0) == 0.0 ? u : -u) + (mod(h, 3.0) < 2.0 ? v : -v); 	
 }
 
-float perlin(vec3 pos, int[256] table) {
+float perlin(in vec3 pos, in int[256] table) {
     ivec3 ii = ivec3(mod(pos, 256.0));
     ivec3 jj = ivec3(mod(pos + 1.0, 256.0));
 	

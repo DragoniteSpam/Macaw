@@ -55,8 +55,18 @@ self.ui.AddContent([
         .SetID("OCTAVES_LABEL"),
     (new EmuProgressBar(32, EMU_AUTO, 256, 32, 8, 1, 12, true, self.octaves, function() {
         obj_macaw_demo.octaves = self.value;
-        self.GetSibling("OCTAVES_LABEL").text = "Octaves: " + string(self.value);
+        switch (obj_macaw_demo.code_type) {
+            case 0:
+            case 1:
+            case 3:
+                self.GetSibling("OCTAVES_LABEL").text = $"Octaves: {self.value}";
+                break;
+            case 2:
+                self.GetSibling("OCTAVES_LABEL").text = $"Smoothness: {self.value}";
+                break;
+        }
     }))
+        .SetID("OCTAVES")
         .SetIntegersOnly(true),
     (new EmuText(32, EMU_AUTO, 256, 32, "Amplitude: " + string(self.amplitude)))
         .SetID("AMPLITUDE_LABEL"),
@@ -72,6 +82,29 @@ self.ui.AddContent([
         .SetRealNumberBounds(4, 8192),
     (new EmuRadioArray(32, EMU_AUTO, 256, 32, "Code type:", self.code_type, function() {
         obj_macaw_demo.code_type = self.value;
+        switch (self.value) {
+            case 0:
+            case 1:
+                self.GetSibling("OCTAVES_LABEL").SetInteractive(true);
+                self.GetSibling("OCTAVES_LABEL").color = function() { return EMU_COLOR_DEFAULT };
+                self.GetSibling("OCTAVES").SetInteractive(true);
+                self.GetSibling("OCTAVES").color_bar = function() { return EMU_COLOR_PROGRESS_BAR };
+                self.GetSibling("OCTAVES_LABEL").text = $"Octaves: {obj_macaw_demo.octaves}";
+                break;
+            case 2:
+                self.GetSibling("OCTAVES_LABEL").SetInteractive(true);
+                self.GetSibling("OCTAVES_LABEL").color = function() { return EMU_COLOR_DEFAULT };
+                self.GetSibling("OCTAVES").SetInteractive(true);
+                self.GetSibling("OCTAVES").color_bar = function() { return EMU_COLOR_PROGRESS_BAR };
+                self.GetSibling("OCTAVES_LABEL").text = $"Smoothness: {obj_macaw_demo.octaves}";
+                break;
+            case 3:
+                self.GetSibling("OCTAVES_LABEL").SetInteractive(false);
+                self.GetSibling("OCTAVES_LABEL").color = function() { return EMU_COLOR_DISABLED };
+                self.GetSibling("OCTAVES").SetInteractive(false);
+                self.GetSibling("OCTAVES").color_bar = function() { return EMU_COLOR_DISABLED };
+                break;
+        }
     }))
         .AddOptions([
             "Native GML (cross-platform)",
@@ -82,7 +115,8 @@ self.ui.AddContent([
     (new EmuRadioArray(32, EMU_AUTO, 256, 32, "Demo type:", self.demo_type, function() {
         obj_macaw_demo.demo_type = self.value;
     }))
-        .AddOptions(["Noise sprite", "Terrain"]),
+        .AddOptions(["Noise sprite", "Terrain"])
+        .SetColumns(1, 144),
     new EmuButton(32, EMU_AUTO, 256, 32, "Generate", function() {
         var output = obj_macaw_demo.Generate();
         self.GetSibling("OUTPUT_GEN").text = "Generation time: " + string(output.noise) + " ms";

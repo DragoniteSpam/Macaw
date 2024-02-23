@@ -40,6 +40,7 @@ function EmuText(x, y, w, h, text) : EmuCore(x, y, w, h, text) constructor {
         scribble(self.text)
             .wrap(self.width, self.height)
             .align(self.align.h, self.align.v)
+            .blend(self.color())
             .draw(tx, ty);
     };
     #endregion
