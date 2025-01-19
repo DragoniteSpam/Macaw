@@ -146,10 +146,15 @@ function macaw_generate_gml(w, h, octave_count, amplitude) {
 }
 
 function macaw_generate_shader(w, h, octave_count, amplitude) {
-    var surface = surface_create(w, h, surface_r32float);
+    static target_surface_format = surface_format_is_supported(surface_r32float) ? surface_r32float : surface_rgba8unorm;
+    
+    var surface = surface_create(w, h, target_surface_format);
     surface_set_target(surface);
     draw_clear(c_black);
     shader_set(shd_macaw);
+    
+    var colour_write = gpu_get_colorwriteenable();
+    gpu_set_colorwriteenable(true, false, false, false);
     
     var shader_seed = ((global.__macaw_seed / 1000) % 50) + 50;
     
@@ -171,6 +176,8 @@ function macaw_generate_shader(w, h, octave_count, amplitude) {
     buffer_get_surface(perlin, surface, 0);
     surface_free(surface);
     
+    gpu_set_colorwriteenable(colour_write);
+    
     return new __macaw_class(perlin, w, h, amplitude);
 }
 
@@ -179,10 +186,15 @@ function macaw_generate_perlin(w, h, octave_count, amplitude) {
         return index;
     });
     
-    var surface = surface_create(w, h, surface_r32float);
+    static target_surface_format = surface_format_is_supported(surface_r32float) ? surface_r32float : surface_rgba8unorm;
+    
+    var surface = surface_create(w, h, target_surface_format);
     surface_set_target(surface);
     draw_clear(c_black);
     shader_set(shd_macaw_perlin);
+    
+    var colour_write = gpu_get_colorwriteenable();
+    gpu_set_colorwriteenable(true, false, false, false);
     
     var shader_seed = ((global.__macaw_seed / 1000) % 50) + 50;
     var current_seed = random_get_seed();
@@ -207,6 +219,8 @@ function macaw_generate_perlin(w, h, octave_count, amplitude) {
     var perlin = buffer_create(w * h * 4, buffer_fixed, 1);
     buffer_get_surface(perlin, surface, 0);
     surface_free(surface);
+    
+    gpu_set_colorwriteenable(colour_write);
     
     return new __macaw_class(perlin, w, h, amplitude);
 }
@@ -259,7 +273,8 @@ function __macaw_class(noise, w, h, amplitude) constructor {
     
     #region Helper functions that may ocasionally be useful
     static ToSprite = function() {
-        var surfacer32 = surface_create(self.width, self.height, surface_r32float);
+        static target_surface_format = surface_format_is_supported(surface_r32float) ? surface_r32float : surface_rgba8unorm;
+        var surfacer32 = surface_create(self.width, self.height, target_surface_format);
         var surfacergba8 = surface_create(self.width, self.height);
         buffer_set_surface(self.noise, surfacer32, 0);
         surface_set_target(surfacergba8);
