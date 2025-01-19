@@ -78,6 +78,8 @@ function macaw_generate_gml(w, h, octave_count, amplitude) {
                 
                 var base_b = base_a + i * h;
                 
+                var hblend3 = hblend * hblend * hblend;
+                
                 var j = 0;
                 repeat (h) {
                     var j0 = (j div period) * period;
@@ -89,9 +91,15 @@ function macaw_generate_gml(w, h, octave_count, amplitude) {
                     var b01 = base_noise[i0 * h + j1];
                     var b11 = base_noise[i1 * h + j1];
                     
-                    var top = macaw_lerp_whatevers_better_than_cubic(b00, b10, hblend);
-                    var bottom = macaw_lerp_whatevers_better_than_cubic(b01, b11, hblend);
-                    buffer_poke(smooth_noise, (base_b + j++) * 4, buffer_f32, macaw_lerp_whatevers_better_than_cubic(top, bottom, vblend));
+                    //var top = macaw_lerp_whatevers_better_than_cubic(b00, b10, hblend);
+                    //var bottom = macaw_lerp_whatevers_better_than_cubic(b01, b11, hblend);
+                    //var middle = macaw_lerp_whatevers_better_than_cubic(top, bottom, vblend);
+                    var hblend_f = ((hblend * (hblend * 6.0 - 15.0) + 10.0) * hblend3);
+                    var top = (b10 - b00) * hblend_f + b00;
+                    var bottom = (b11 - b01) * hblend_f + b01;
+                    
+                    var middle = (bottom - top) * ((vblend * (vblend * 6.0 - 15.0) + 10.0) * vblend * vblend * vblend) + top;
+                    buffer_poke(smooth_noise, (base_b + j++) * 4, buffer_f32, middle);
                 }
                 i++;
             }
