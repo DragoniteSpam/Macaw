@@ -166,11 +166,19 @@ Generate = function() {
     
     var t0 = get_timer();
     var macaw = undefined;
-    switch (self.code_type) {
-        case 0: macaw = macaw_generate_gml(self.width, self.height, self.octaves, self.amplitude); break;
-        case 1: macaw = macaw_generate_dll(self.width, self.height, self.octaves, self.amplitude); break;
-        case 2: macaw = macaw_generate_shader(self.width, self.height, self.octaves, self.amplitude); break;
-        case 3: macaw = macaw_generate_perlin(self.width, self.height, self.octaves, self.amplitude); break;
+    if (windows_build) {
+        switch (self.code_type) {
+            case 0: macaw = macaw_generate_gml(self.width, self.height, self.octaves, self.amplitude); break;
+            case 1: macaw = macaw_generate_dll(self.width, self.height, self.octaves, self.amplitude); break;
+            case 2: macaw = macaw_generate_shader(self.width, self.height, self.octaves, self.amplitude); break;
+            case 3: macaw = macaw_generate_perlin(self.width, self.height, self.octaves, self.amplitude); break;
+        }
+    } else {
+        switch (self.code_type) {
+            case 0: macaw = macaw_generate_gml(self.width, self.height, self.octaves, self.amplitude); break;
+            case 1: macaw = macaw_generate_shader(self.width, self.height, self.octaves, self.amplitude); break;
+            case 2: macaw = macaw_generate_perlin(self.width, self.height, self.octaves, self.amplitude); break;
+        }
     }
     var time_gen = (get_timer() - t0) / 1000;
     
