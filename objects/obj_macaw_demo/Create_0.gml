@@ -1,3 +1,5 @@
+#macro windows_build (os_get_config() == "Default")
+
 self.width = 256;
 self.height = 256;
 self.octaves = 6;
@@ -100,12 +102,27 @@ self.ui.AddContent([
                 break;
         }
     }))
+        .SetID("TYPE")
+]);
+
+if (windows_build) {
+    self.ui.GetChild("TYPE")
         .AddOptions([
             "Native GML (cross-platform)",
             "DLL (Windows only)",
             "Shader (cross-platform)",
             "Perlin (shader, cross-platform)",
-        ]),
+        ]);
+} else {
+    self.ui.GetChild("TYPE")
+        .AddOptions([
+            "Native GML (cross-platform)",
+            "Shader (cross-platform)",
+            "Perlin (shader, cross-platform)",
+        ]);
+}
+
+self.ui.AddContent([
     (new EmuRadioArray(32, EMU_AUTO, 256, 32, "Demo type:", self.demo_type, function() {
         obj_macaw_demo.demo_type = self.value;
     }))
@@ -130,7 +147,7 @@ self.ui.AddContent([
     (new EmuText(1024, EMU_AUTO, 256, 32, ""))
         .SetID("OUTPUT_SPRITE"),
     (new EmuText(1024, EMU_AUTO, 256, 32, ""))
-        .SetID("OUTPUT_TERRAIN"),
+        .SetID("OUTPUT_TERRAIN")
 ]);
 
 Generate = function() {
