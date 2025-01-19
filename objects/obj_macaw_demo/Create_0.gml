@@ -18,7 +18,6 @@ self.vbuff_height = height;
 self.ui = new EmuCore(0, 0, window_get_width(), window_get_height());
 
 self.ui.AddContent([
-    new EmuText(32, EMU_AUTO, 256, 32, "[c_yellow]Macaw: Noise in GameMaker"),
     (new EmuInput(32, EMU_AUTO, 256, 32, "Width:", string(self.width), "16...2048", 4, E_InputTypes.INT, function() {
         obj_macaw_demo.width = real(self.value);
     }))
@@ -121,6 +120,17 @@ if (windows_build) {
             "Perlin (shader, cross-platform)",
         ]);
 }
+
+var input_width = self.ui.GetChild("WIDTH");
+var input_height = self.ui.GetChild("HEIGHT");
+
+input_width
+    .SetNext(input_height)
+    .SetPrevious(input_height);
+
+input_height
+    .SetNext(input_width)
+    .SetPrevious(input_width);
 
 self.ui.AddContent([
     (new EmuRadioArray(32, EMU_AUTO, 256, 32, "Demo type:", self.demo_type, function() {
