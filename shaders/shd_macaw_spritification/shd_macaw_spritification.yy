@@ -1,10 +1,12 @@
 {
-  "resourceType": "GMShader",
-  "resourceVersion": "1.0",
-  "name": "shd_macaw_spritification",
-  "parent": {
-    "name": "Macaw",
-    "path": "folders/Macaw.yy",
+  "$GMShader":"",
+  "%Name":"shd_macaw_spritification",
+  "name":"shd_macaw_spritification",
+  "parent":{
+    "name":"Macaw",
+    "path":"folders/Macaw.yy",
   },
-  "type": 1,
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
 }
