@@ -258,7 +258,7 @@ function __macaw_class(noise, w, h, amplitude) constructor {
     static Get = function(x, y) {
         x = floor(clamp(x, 0, self.width - 1));
         y = floor(clamp(y, 0, self.height - 1));
-        return buffer_peek(self.noise, ((x * self.height) + y) * 2, buffer_f16);
+        return buffer_peek(self.noise, ((x * self.height) + y) * 4, buffer_f16);
     };
     
     static GetNormalized = function(u, v) {
