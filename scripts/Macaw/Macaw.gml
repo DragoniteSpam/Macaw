@@ -23,7 +23,7 @@ function macaw_generate_dll(w, h, octaves, amplitude) {
         warned = true;
     }
     
-    return macaw_generate(w, h, octaves, amplitude);
+    return macaw_generate_gml(w, h, octaves, amplitude);
 }
 
 function macaw_generate_gml(w, h, octave_count, amplitude) {
